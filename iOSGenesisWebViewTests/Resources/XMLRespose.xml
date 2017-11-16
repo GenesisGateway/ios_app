@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wpf_payment>
+    <status>new</status>
+    <unique_id>id1234</unique_id>
+    <transaction_id>transactionID</transaction_id>
+    <timestamp>2017-10-23T12:51:39Z</timestamp>
+    <amount>5000</amount>
+    <currency>USD</currency>
+    <redirect_url>https://redirect.url</redirect_url>
+</wpf_payment>
