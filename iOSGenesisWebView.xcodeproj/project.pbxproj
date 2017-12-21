@@ -29,20 +29,6 @@
 			remoteGlobalIDString = 2D570D411F3CB452001DE81E;
 			remoteInfo = iOSGenesisWebView;
 		};
-		2D13FBE21FBD3C7600E0E529 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2D13FBC71FBD376100E0E529 /* GenesisSwift.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 7354252F1F9F448100C78058;
-			remoteInfo = GenesisSwift;
-		};
-		2D13FBE41FBD3C7600E0E529 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2D13FBC71FBD376100E0E529 /* GenesisSwift.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 735425381F9F448100C78058;
-			remoteInfo = GenesisSwiftTests;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -54,7 +40,6 @@
 		2D13FAC91FB9F84500E0E529 /* XMLRespose.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = XMLRespose.xml; sourceTree = "<group>"; };
 		2D13FACB1FB9F85500E0E529 /* InputDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputDataTests.swift; sourceTree = "<group>"; };
 		2D13FACF1FB9FFA200E0E529 /* PickerDataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerDataTests.swift; sourceTree = "<group>"; };
-		2D13FBC71FBD376100E0E529 /* GenesisSwift.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GenesisSwift.xcodeproj; path = GenesisSwift/GenesisSwift.xcodeproj; sourceTree = "<group>"; };
 		2D32D9FC1F8ACC5800A43FE0 /* InputTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputTableViewCell.swift; sourceTree = "<group>"; };
 		2D570D421F3CB452001DE81E /* iOSGenesisWebView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSGenesisWebView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D570D451F3CB452001DE81E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -113,15 +98,6 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		2D13FBDE1FBD3C7600E0E529 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				2D13FBE31FBD3C7600E0E529 /* GenesisSwift.framework */,
-				2D13FBE51FBD3C7600E0E529 /* GenesisSwiftTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		2D570D391F3CB452001DE81E = {
 			isa = PBXGroup;
 			children = (
@@ -160,7 +136,6 @@
 		735D00711F9F748D00994C17 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				2D13FBC71FBD376100E0E529 /* GenesisSwift.xcodeproj */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -234,12 +209,6 @@
 			mainGroup = 2D570D391F3CB452001DE81E;
 			productRefGroup = 2D570D431F3CB452001DE81E /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 2D13FBDE1FBD3C7600E0E529 /* Products */;
-					ProjectRef = 2D13FBC71FBD376100E0E529 /* GenesisSwift.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				2D570D411F3CB452001DE81E /* iOSGenesisWebView */,
@@ -247,23 +216,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		2D13FBE31FBD3C7600E0E529 /* GenesisSwift.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = GenesisSwift.framework;
-			remoteRef = 2D13FBE21FBD3C7600E0E529 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		2D13FBE51FBD3C7600E0E529 /* GenesisSwiftTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = GenesisSwiftTests.xctest;
-			remoteRef = 2D13FBE41FBD3C7600E0E529 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		2D13FABB1FB9F83500E0E529 /* Resources */ = {
