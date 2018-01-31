@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Fn1-AN-Pql">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Fn1-AN-Pql">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -60,7 +60,7 @@
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ONG-Cw-zVA">
                                                     <rect key="frame" x="5" y="50" width="365" height="49"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="49" id="p2e-YN-Kyi"/>
+                                                        <constraint firstAttribute="height" priority="999" constant="50" id="WXP-6B-Ak4"/>
                                                     </constraints>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -104,7 +104,7 @@
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kM6-wA-jS8">
                                                     <rect key="frame" x="5" y="50" width="365" height="49"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="49" id="7zT-Lv-wxs"/>
+                                                        <constraint firstAttribute="height" priority="999" constant="50" id="xoP-rb-20c"/>
                                                     </constraints>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -139,7 +139,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PAY" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QF1-QZ-WVQ">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="50" id="6Fi-TE-Dd4"/>
+                                                        <constraint firstAttribute="height" priority="999" constant="50" id="6Fi-TE-Dd4"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -149,7 +149,7 @@
                                             <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="QF1-QZ-WVQ" secondAttribute="bottom" id="EQi-ZL-5Jn"/>
+                                                <constraint firstAttribute="bottom" secondItem="QF1-QZ-WVQ" secondAttribute="bottom" id="5cE-C0-3Ti"/>
                                                 <constraint firstItem="QF1-QZ-WVQ" firstAttribute="top" secondItem="d4R-pd-6Ik" secondAttribute="top" id="Hkr-uN-qZy"/>
                                                 <constraint firstAttribute="trailing" secondItem="QF1-QZ-WVQ" secondAttribute="trailing" id="ktm-t9-kIN"/>
                                                 <constraint firstItem="QF1-QZ-WVQ" firstAttribute="leading" secondItem="d4R-pd-6Ik" secondAttribute="leading" id="s38-Yc-YL0"/>
@@ -175,56 +175,11 @@
                     <connections>
                         <outlet property="bottomLayoutConstraint" destination="qtm-4d-czz" id="IxE-7d-2dc"/>
                         <outlet property="tableView" destination="bhy-oc-0C2" id="Crp-PO-qCW"/>
-                        <segue destination="fYA-1V-uVa" kind="show" identifier="segueNext" id="eb2-to-uK2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="256.80000000000001" y="-530.28485757121439"/>
-        </scene>
-        <!--Web View Controller-->
-        <scene sceneID="g3D-FO-mGM">
-            <objects>
-                <viewController id="fYA-1V-uVa" customClass="WebViewController" customModule="GenesisSwift" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="k18-bS-XET"/>
-                        <viewControllerLayoutGuide type="bottom" id="7M7-ZX-Zra"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="0k1-8W-pg3">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v4K-Ie-tJe">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
-                                <subviews>
-                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="rYT-a0-ylI">
-                                        <rect key="frame" x="169" y="283" width="37" height="37"/>
-                                        <color key="color" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                    </activityIndicatorView>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstItem="rYT-a0-ylI" firstAttribute="centerX" secondItem="v4K-Ie-tJe" secondAttribute="centerX" id="IPF-al-fQf"/>
-                                    <constraint firstItem="rYT-a0-ylI" firstAttribute="centerY" secondItem="v4K-Ie-tJe" secondAttribute="centerY" id="t3r-bt-eqQ"/>
-                                </constraints>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="v4K-Ie-tJe" secondAttribute="trailing" id="Ddd-28-VkX"/>
-                            <constraint firstItem="7M7-ZX-Zra" firstAttribute="top" secondItem="v4K-Ie-tJe" secondAttribute="bottom" id="Z77-gs-MrL"/>
-                            <constraint firstItem="v4K-Ie-tJe" firstAttribute="top" secondItem="k18-bS-XET" secondAttribute="bottom" id="dAo-af-6Vj"/>
-                            <constraint firstItem="v4K-Ie-tJe" firstAttribute="leading" secondItem="0k1-8W-pg3" secondAttribute="leading" id="vxf-48-qRr"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="contentView" destination="v4K-Ie-tJe" id="blg-Wo-s6j"/>
-                        <outlet property="indicator" destination="rYT-a0-ylI" id="N0k-NI-7kJ"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Das-0v-Jm1" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1023" y="-530"/>
         </scene>
     </scenes>
 </document>

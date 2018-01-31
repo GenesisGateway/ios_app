@@ -17,7 +17,7 @@ final class ViewController: UIViewController {
     @IBOutlet weak var bottomLayoutConstraint: NSLayoutConstraint!
     @IBOutlet weak var tableView: UITableView!
     
-    fileprivate var webViewController: WebViewController?
+    fileprivate var webViewController = WebViewController()
     
     var requestModel: WPFPaymentRequest!
     var genesisWebView: GenesisWebView!
@@ -171,13 +171,7 @@ final class ViewController: UIViewController {
         genesisWebView.genesisWebViewDelegate = self
         genesisWebView.loadRequest()
 
-        performSegue(withIdentifier: "segueNext", sender: nil)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if (segue.identifier == "segueNext") {
-            webViewController = segue.destination as? WebViewController
-        }
+        navigationController?.pushViewController(webViewController, animated: true)
     }
     
     func showAlertWithTitle(_ title: String, message: String) {
@@ -244,14 +238,12 @@ extension ViewController: UITableViewDelegate {
 extension ViewController: GenesisWebViewDelegate {
     
     func genesisWebViewDidFinishLoading() {
-        if let indicator = webViewController?.indicator {
-            indicator.stopAnimating()
-        }
-        webViewController?.addView(genesisWebView.webView)
+        webViewController.indicator.stopAnimating()
+        webViewController.addView(genesisWebView.webView)
     }
     
     func genesisWebViewDidEndWithSuccess() {
-        webViewController?.back()
+        webViewController.back()
         let alert = UIAlertController(title: "Success", message: "Success redirection", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default) { action in
             alert.dismiss(animated: true, completion: nil)
@@ -261,7 +253,7 @@ extension ViewController: GenesisWebViewDelegate {
     }
     
     func genesisWebViewDidEndWithFailure(errorCode: GenesisErrorCode) {
-        webViewController?.back()
+        webViewController.back()
         let alert = UIAlertController(title: "Failure",
                                       message: "code: \(errorCode.code ?? "unknown")\n technical: \(errorCode.technicalMessage ?? "unknown")\n message: \(errorCode.message ?? "unknown")",
             preferredStyle: .alert)
@@ -273,7 +265,7 @@ extension ViewController: GenesisWebViewDelegate {
     }
     
     func genesisWebViewDidEndWithCancel() {
-        webViewController?.back()
+        webViewController.back()
         let alert = UIAlertController(title: "Canceled", message: "", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default) { action in
             alert.dismiss(animated: true, completion: nil)
@@ -287,8 +279,9 @@ extension ViewController: GenesisWebViewDelegate {
 extension ViewController: CellDidChangeDelegate {
  
     func cellTextFieldDidChange(_ tuple: (DataProtocol, IndexPath)) {
+        let (dataProtocol, indexPath) = tuple
         var tmpArray = loadedInputDataSource
-        tmpArray[tuple.1.row] = tuple.0
+        tmpArray[indexPath.row] = dataProtocol
         loadedInputDataSource = tmpArray
     }
     
