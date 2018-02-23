@@ -98,27 +98,21 @@ final class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShowNotification), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHideNotification), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillShowNotification(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillHideNotification(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
+    deinit {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
-    func keyboardWillShowNotification(notification: NSNotification) {
+    @objc func keyboardWillShowNotification(notification: NSNotification) {
         updateBottomLayoutConstraintWithNotification(notification: notification)
     }
     
-    func keyboardWillHideNotification(notification: NSNotification) {
+    @objc func keyboardWillHideNotification(notification: NSNotification) {
         updateBottomLayoutConstraintWithNotification(notification: notification)
     }
     

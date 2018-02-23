@@ -49,6 +49,7 @@
 		2D570D4F1F3CB452001DE81E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2D570D511F3CB452001DE81E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2DC0B4F51F94C3EE00C536EF /* PickerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerTableViewCell.swift; sourceTree = "<group>"; };
+		892CD16D203AED3100370D34 /* GenesisSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GenesisSwift.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +102,7 @@
 		2D570D391F3CB452001DE81E = {
 			isa = PBXGroup;
 			children = (
+				892CD16D203AED3100370D34 /* GenesisSwift.framework */,
 				2D570D441F3CB452001DE81E /* iOSGenesisWebView */,
 				2D13FABE1FB9F83500E0E529 /* iOSGenesisWebViewTests */,
 				2D570D431F3CB452001DE81E /* Products */,
@@ -195,6 +197,7 @@
 					2D570D411F3CB452001DE81E = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = 0;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Manual;
 					};
 				};
@@ -449,14 +452,18 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 0;
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/Frameworks";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/Frameworks",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = iOSGenesisWebView/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.emerchantpay.inapppayments;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -467,14 +474,18 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 0;
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/Frameworks";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/Frameworks",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = iOSGenesisWebView/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.emerchantpay.inapppayments;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
