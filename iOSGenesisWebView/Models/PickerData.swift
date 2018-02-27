@@ -17,7 +17,7 @@ extension IsoCountryInfo: PickerDataItem {
     }
     
     public var pickerValue: String {
-        return self.alpha2
+        return self.name
     }
 }
 

@@ -25,20 +25,20 @@ final class ViewController: UIViewController {
     let userDefaultsKey = "UserDefaultsDataKey"
     
     let inputDataSource: [DataProtocol] = [
-        InputData(title: "transactionId", value: "wev238f328nc" + String(arc4random_uniform(999999))),
-        ValidatedInputData(title:"amount", value: "1,234.56", regex: "[0-9]{1,3}(,[0-9]{3})*.[0-9]{0,3}"),
-        PickerData(title:"currency", value: "USD", items: Currencies.allCurrencies),
-        InputData(title:"customerEmail", value: "john.doe@example.com"),
-        InputData(title:"customerPhone", value: "+11234567890"),
-        InputData(title:"firstName", value: "John"),
-        InputData(title:"lastName", value: "Doe"),
-        InputData(title:"address1", value: "23, Doestreet"),
-        InputData(title:"address2", value: ""),
-        InputData(title:"zipCode", value: "11923"),
-        InputData(title:"city", value: "New York City"),
-        InputData(title:"state", value: "NY"),
-        PickerData(title:"country", value: "US", items: IsoCountries.allCountries),
-        InputData(title:"notificationUrl", value: "https://example.com/notification")]
+        InputData(title: "Transaction Id", value: "wev238f328nc" + String(arc4random_uniform(999999))),
+        ValidatedInputData(title:"Amount", value: "1,234.56", regex: "[0-9]{1,3}(,[0-9]{3})*.[0-9]{0,3}"),
+        PickerData(title:"Currency", value: "USD", items: Currencies.allCurrencies),
+        InputData(title:"Customer Email", value: "john.doe@example.com"),
+        InputData(title:"Customer Phone", value: "+11234567890"),
+        InputData(title:"First Name", value: "John"),
+        InputData(title:"Last Name", value: "Doe"),
+        InputData(title:"Address 1", value: "23, Doestreet"),
+        InputData(title:"Address 2", value: ""),
+        InputData(title:"ZIP Code", value: "11923"),
+        InputData(title:"City", value: "New York City"),
+        InputData(title:"State", value: "NY"),
+        PickerData(title:"Country", value: "United States", items: IsoCountries.allCountries),
+        InputData(title:"Notification Url", value: "https://example.com/notification")]
     
     private var _loadedInputDataSource: Array<DataProtocol>?
     var loadedInputDataSource: Array<DataProtocol> {
@@ -101,6 +101,9 @@ final class ViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShowNotification), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHideNotification), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        
+        //TODO: when add logic for update/change TransactionType - change this
+        self.title = TransactionName.sale.rawValue
     }
     
     deinit {
@@ -135,6 +138,14 @@ final class ViewController: UIViewController {
                        completion: nil)
     }
     
+    private func isoCodeForCountryName(_ name: String) -> String {
+        if let i = IsoCountries.allCountries.index(where: { $0.name == name }) {
+            return IsoCountries.allCountries[i].alpha2
+        }
+        
+        return name
+    }
+    
     func makeRequest() {
     
         guard let amount = loadedInputDataSource[1].value.explicitConvertionToDecimal() else {
@@ -154,7 +165,7 @@ final class ViewController: UIViewController {
                                                                            zipCode: loadedInputDataSource[9].value,
                                                                            city: loadedInputDataSource[10].value,
                                                                            state: loadedInputDataSource[11].value,
-                                                                           country: loadedInputDataSource[12].value),
+                                                                           country: self.isoCodeForCountryName(loadedInputDataSource[12].value)),
                                          transactionTypes: [WPFPaymentTransactionType(name: .sale)],
                                          notificationUrl: loadedInputDataSource[13].value)
         
