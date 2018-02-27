@@ -158,7 +158,7 @@ final class ViewController: UIViewController {
                                          transactionTypes: [WPFPaymentTransactionType(name: .sale)],
                                          notificationUrl: loadedInputDataSource[13].value)
         
-        let credentials = "YOUR_USERNAME:YOUR_PASSWORD"
+        let credentials = Credentials(withUsername: "YOUR_USERNAME", andPassword: "YOUR_PASSWORD")
         
         let configuration = Configuration(credentials: credentials, language: .en, environment: .staging, endpoint: .emerchantpay)
         genesisWebView = GenesisWebView(configuration: configuration, request: requestModel)

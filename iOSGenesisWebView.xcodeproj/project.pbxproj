@@ -19,6 +19,8 @@
 		2D570D4D1F3CB452001DE81E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D570D4C1F3CB452001DE81E /* Assets.xcassets */; };
 		2D570D501F3CB452001DE81E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D570D4E1F3CB452001DE81E /* LaunchScreen.storyboard */; };
 		2DC0B4F61F94C3EF00C536EF /* PickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DC0B4F51F94C3EE00C536EF /* PickerTableViewCell.swift */; };
+		2E36469E204456F700F7FE9D /* GenesisSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E364699204456E900F7FE9D /* GenesisSwift.framework */; };
+		2E3646A420454D6900F7FE9D /* GenesisSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2E364699204456E900F7FE9D /* GenesisSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,7 +31,49 @@
 			remoteGlobalIDString = 2D570D411F3CB452001DE81E;
 			remoteInfo = iOSGenesisWebView;
 		};
+		2E364698204456E900F7FE9D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2E364693204456E900F7FE9D /* GenesisSwift.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 7354252F1F9F448100C78058;
+			remoteInfo = GenesisSwift;
+		};
+		2E36469A204456E900F7FE9D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2E364693204456E900F7FE9D /* GenesisSwift.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 735425381F9F448100C78058;
+			remoteInfo = GenesisSwiftTests;
+		};
+		2E36469C204456F400F7FE9D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2E364693204456E900F7FE9D /* GenesisSwift.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 7354252E1F9F448100C78058;
+			remoteInfo = GenesisSwift;
+		};
+		2E3646A12044570800F7FE9D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2E364693204456E900F7FE9D /* GenesisSwift.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 7354252E1F9F448100C78058;
+			remoteInfo = GenesisSwift;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2E3646A32044570800F7FE9D /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				2E3646A420454D6900F7FE9D /* GenesisSwift.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		2D13FAA01FB3A1F300E0E529 /* InputData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputData.swift; sourceTree = "<group>"; };
@@ -49,7 +93,7 @@
 		2D570D4F1F3CB452001DE81E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2D570D511F3CB452001DE81E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2DC0B4F51F94C3EE00C536EF /* PickerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerTableViewCell.swift; sourceTree = "<group>"; };
-		892CD16D203AED3100370D34 /* GenesisSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GenesisSwift.framework; sourceTree = "<group>"; };
+		2E364693204456E900F7FE9D /* GenesisSwift.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GenesisSwift.xcodeproj; path = ios_sdk/GenesisSwift.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +108,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E36469E204456F700F7FE9D /* GenesisSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,7 +147,7 @@
 		2D570D391F3CB452001DE81E = {
 			isa = PBXGroup;
 			children = (
-				892CD16D203AED3100370D34 /* GenesisSwift.framework */,
+				2E364693204456E900F7FE9D /* GenesisSwift.xcodeproj */,
 				2D570D441F3CB452001DE81E /* iOSGenesisWebView */,
 				2D13FABE1FB9F83500E0E529 /* iOSGenesisWebViewTests */,
 				2D570D431F3CB452001DE81E /* Products */,
@@ -133,6 +178,15 @@
 				2D570D511F3CB452001DE81E /* Info.plist */,
 			);
 			path = iOSGenesisWebView;
+			sourceTree = "<group>";
+		};
+		2E364694204456E900F7FE9D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2E364699204456E900F7FE9D /* GenesisSwift.framework */,
+				2E36469B204456E900F7FE9D /* GenesisSwiftTests.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		735D00711F9F748D00994C17 /* Frameworks */ = {
@@ -170,10 +224,13 @@
 				2D570D3E1F3CB452001DE81E /* Sources */,
 				2D570D3F1F3CB452001DE81E /* Frameworks */,
 				2D570D401F3CB452001DE81E /* Resources */,
+				2E3646A32044570800F7FE9D /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				2E36469D204456F400F7FE9D /* PBXTargetDependency */,
+				2E3646A22044570800F7FE9D /* PBXTargetDependency */,
 			);
 			name = iOSGenesisWebView;
 			productName = iOSGenesisWebView;
@@ -196,9 +253,9 @@
 					};
 					2D570D411F3CB452001DE81E = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = 0;
+						DevelopmentTeam = J298XB5U82;
 						LastSwiftMigration = 0920;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -213,6 +270,12 @@
 			mainGroup = 2D570D391F3CB452001DE81E;
 			productRefGroup = 2D570D431F3CB452001DE81E /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 2E364694204456E900F7FE9D /* Products */;
+					ProjectRef = 2E364693204456E900F7FE9D /* GenesisSwift.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				2D570D411F3CB452001DE81E /* iOSGenesisWebView */,
@@ -220,6 +283,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		2E364699204456E900F7FE9D /* GenesisSwift.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = GenesisSwift.framework;
+			remoteRef = 2E364698204456E900F7FE9D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		2E36469B204456E900F7FE9D /* GenesisSwiftTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = GenesisSwiftTests.xctest;
+			remoteRef = 2E36469A204456E900F7FE9D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		2D13FABB1FB9F83500E0E529 /* Resources */ = {
@@ -272,6 +352,16 @@
 			isa = PBXTargetDependency;
 			target = 2D570D411F3CB452001DE81E /* iOSGenesisWebView */;
 			targetProxy = 2D13FAC21FB9F83500E0E529 /* PBXContainerItemProxy */;
+		};
+		2E36469D204456F400F7FE9D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = GenesisSwift;
+			targetProxy = 2E36469C204456F400F7FE9D /* PBXContainerItemProxy */;
+		};
+		2E3646A22044570800F7FE9D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = GenesisSwift;
+			targetProxy = 2E3646A12044570800F7FE9D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -376,6 +466,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_BITCODE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -427,6 +518,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -449,10 +541,15 @@
 		2D570D551F3CB452001DE81E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = 0;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = J298XB5U82;
+				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)",
 					"$(SRCROOT)/Frameworks",
 					"$(PROJECT_DIR)",
 				);
@@ -470,11 +567,15 @@
 		2D570D561F3CB452001DE81E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = 0;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = J298XB5U82;
+				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)",
 					"$(SRCROOT)/Frameworks",
 					"$(PROJECT_DIR)",
 				);

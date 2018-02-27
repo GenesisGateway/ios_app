@@ -1,0 +1,4 @@
+[submodule "ios_sdk"]
+	path = ios_sdk
+	url = git@emp-sof-github01.emp.internal.com:eMerchantPay/ios_sdk.git
+	branch = develop
