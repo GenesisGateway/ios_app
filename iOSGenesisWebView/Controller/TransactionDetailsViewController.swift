@@ -12,7 +12,8 @@ protocol CellDidChangeDelegate: class {
     func cellTextFieldValidationPassed(_ indexPath: IndexPath)
 }
 
-final class ViewController: UIViewController {
+final class TransactionDetailsViewController: UIViewController {
+    var transactionType: TransactionName?
     
     @IBOutlet weak var bottomLayoutConstraint: NSLayoutConstraint!
     @IBOutlet weak var tableView: UITableView!
@@ -24,76 +25,22 @@ final class ViewController: UIViewController {
     
     let userDefaultsKey = "UserDefaultsDataKey"
     
-    let inputDataSource: [DataProtocol] = [
-        InputData(title: "Transaction Id", value: "wev238f328nc" + String(arc4random_uniform(999999))),
-        ValidatedInputData(title:"Amount", value: "1,234.56", regex: "[0-9]{1,3}(,[0-9]{3})*.[0-9]{0,3}"),
-        PickerData(title:"Currency", value: "USD", items: Currencies.allCurrencies),
-        InputData(title:"Customer Email", value: "john.doe@example.com"),
-        InputData(title:"Customer Phone", value: "+11234567890"),
-        InputData(title:"First Name", value: "John"),
-        InputData(title:"Last Name", value: "Doe"),
-        InputData(title:"Address 1", value: "23, Doestreet"),
-        InputData(title:"Address 2", value: ""),
-        InputData(title:"ZIP Code", value: "11923"),
-        InputData(title:"City", value: "New York City"),
-        InputData(title:"State", value: "NY"),
-        PickerData(title:"Country", value: "United States", items: IsoCountries.allCountries),
-        InputData(title:"Notification Url", value: "https://example.com/notification")]
-    
     private var _loadedInputDataSource: Array<DataProtocol>?
     var loadedInputDataSource: Array<DataProtocol> {
         get {
             guard let loaded = UserDefaults.standard.array(forKey: userDefaultsKey) else {
-                return inputDataSource
+                return InputDataHelper.inputDataDefault
             }
             if _loadedInputDataSource == nil {
-                _loadedInputDataSource = convertArrayToInputData(inputArray: loaded as! Array<Dictionary<String, String>>)
+                _loadedInputDataSource = InputDataHelper.convertArrayToInputData(inputArray: loaded as! Array<Dictionary<String, String>>)
                 _loadedInputDataSource![0] = InputData(title:"transactionId", value: "wev238f328nc" + String(arc4random_uniform(999999)))
             }
             return _loadedInputDataSource!
         }
         set (newData) {
             _loadedInputDataSource = newData
-            UserDefaults.standard.set(convertInputDataToArray(inputArray:_loadedInputDataSource!), forKey: userDefaultsKey)
+            UserDefaults.standard.set(InputDataHelper.convertInputDataToArray(inputArray:_loadedInputDataSource!), forKey: userDefaultsKey)
         }
-    }
-    
-    func convertInputDataToArray(inputArray: Array<DataProtocol>) -> Array<Dictionary<String, String>> {
-        var array = Array<Dictionary<String, String>>()
-        for data in inputArray {
-            var dictionary = Dictionary<String, String>()
-            dictionary["title"] = data.title
-            dictionary["value"] = data.value
-            dictionary["regex"] = data.regex
-            dictionary["type"] = String(describing: type(of: data))
-            array.append(dictionary)
-        }
-        return array
-    }
-    
-    func convertArrayToInputData(inputArray: Array<Dictionary<String, String>>) -> Array<DataProtocol> {
-        var array = Array<DataProtocol>()
-        var counter = 0
-        for dictionary in inputArray {
-            if let title = dictionary["title"], let value = dictionary["value"], let regex = dictionary["regex"], let type = dictionary["type"] {
-                if type == "InputData" {
-                    array.append(InputData(title: title, value: value))
-                }
-                if type == "PickerData" {
-                    if counter == 0 {
-                        array.append(PickerData(title: title, value: value, items: Currencies.allCurrencies))
-                    }
-                    if counter == 1 {
-                        array.append(PickerData(title: title, value: value, items: IsoCountries.allCountries))
-                    }
-                    counter += 1
-                }
-                if type == "ValidatedInputData" {
-                    array.append(ValidatedInputData(title: title, value: value, regex: regex))
-                }
-            }
-        }
-        return array
     }
     
     override func viewDidLoad() {
@@ -101,9 +48,14 @@ final class ViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShowNotification), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHideNotification), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-        
-        //TODO: when add logic for update/change TransactionType - change this
-        self.title = TransactionName.sale.rawValue
+    
+        setupView()
+    }
+    
+    private func setupView() {
+        self.title = transactionType?.rawValue
+
+        hideKeyboardWhenTappedAround()
     }
     
     deinit {
@@ -149,7 +101,7 @@ final class ViewController: UIViewController {
     func makeRequest() {
     
         guard let amount = loadedInputDataSource[1].value.explicitConvertionToDecimal() else {
-            showAlertWithTitle("Amount error", message: "")
+            presentAlertWithTitle("Amount error")
             return
         }
         
@@ -166,10 +118,11 @@ final class ViewController: UIViewController {
                                                                            city: loadedInputDataSource[10].value,
                                                                            state: loadedInputDataSource[11].value,
                                                                            country: self.isoCodeForCountryName(loadedInputDataSource[12].value)),
-                                         transactionTypes: [WPFPaymentTransactionType(name: .sale)],
+                                         transactionTypes: [WPFPaymentTransactionType(name: transactionType!)],
                                          notificationUrl: loadedInputDataSource[13].value)
         
-        let credentials = Credentials(withUsername: "YOUR_USERNAME", andPassword: "YOUR_PASSWORD")
+        let credentials = Credentials(withUsername: "e304299924f8abb9c1caa926fb0e819c46e81f66", andPassword: "f55047e58b69a60d6839c97eb0290093ba605010")
+//        let credentials = Credentials(withUsername: "YOUR_USERNAME", andPassword: "YOUR_PASSWORD")
         
         let configuration = Configuration(credentials: credentials, language: .en, environment: .staging, endpoint: .emerchantpay)
         genesisWebView = GenesisWebView(configuration: configuration, request: requestModel)
@@ -179,19 +132,10 @@ final class ViewController: UIViewController {
         webViewController = WebViewController()
         navigationController?.pushViewController(webViewController!, animated: true)
     }
-    
-    func showAlertWithTitle(_ title: String, message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default) { action in
-            alert.dismiss(animated: true, completion: nil)
-        }
-        alert.addAction(okAction)
-        present(alert, animated: true, completion: nil)
-    }
 }
 
 // MARK: - UITableViewDataSource
-extension ViewController: UITableViewDataSource {
+extension TransactionDetailsViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return loadedInputDataSource.count + 1
@@ -231,7 +175,7 @@ extension ViewController: UITableViewDataSource {
 }
 
 // MARK: - UITableViewDelegate
-extension ViewController: UITableViewDelegate {
+extension TransactionDetailsViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if (indexPath.row == loadedInputDataSource.count) {
@@ -241,7 +185,7 @@ extension ViewController: UITableViewDelegate {
 }
 
 // MARK: - GenesisWebViewProtocol
-extension ViewController: GenesisWebViewDelegate {
+extension TransactionDetailsViewController: GenesisWebViewDelegate {
     
     func genesisWebViewDidFinishLoading() {
         webViewController?.indicator.stopAnimating()
@@ -250,39 +194,25 @@ extension ViewController: GenesisWebViewDelegate {
     
     func genesisWebViewDidEndWithSuccess() {
         webViewController?.back()
-        let alert = UIAlertController(title: "Success", message: "Success redirection", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default) { action in
-            alert.dismiss(animated: true, completion: nil)
-        }
-        alert.addAction(okAction)
-        present(alert, animated: true, completion: nil)
+        
+        presentAlertWithTitle("Success", andMessage: "Success redirection")
     }
     
     func genesisWebViewDidEndWithFailure(errorCode: GenesisErrorCode) {
         webViewController?.back()
-        let alert = UIAlertController(title: "Failure",
-                                      message: "code: \(errorCode.code ?? "unknown")\n technical: \(errorCode.technicalMessage ?? "unknown")\n message: \(errorCode.message ?? "unknown")",
-            preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default) { action in
-            alert.dismiss(animated: true, completion: nil)
-        }
-        alert.addAction(okAction)
-        present(alert, animated: true, completion: nil)
+        
+        presentAlertWithTitle("Failure", andMessage: "code: \(errorCode.code ?? "unknown")\n technical: \(errorCode.technicalMessage ?? "unknown")\n message: \(errorCode.message ?? "unknown")")
     }
     
     func genesisWebViewDidEndWithCancel() {
         webViewController?.back()
-        let alert = UIAlertController(title: "Canceled", message: "", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default) { action in
-            alert.dismiss(animated: true, completion: nil)
-        }
-        alert.addAction(okAction)
-        present(alert, animated: true, completion: nil)
+        
+        presentAlertWithTitle("Canceled")
     }
 }
 
 // MARK: - CellDidChangeDelegate
-extension ViewController: CellDidChangeDelegate {
+extension TransactionDetailsViewController: CellDidChangeDelegate {
  
     func cellTextFieldDidChange(_ tuple: (DataProtocol, IndexPath)) {
         let (dataProtocol, indexPath) = tuple
@@ -292,7 +222,7 @@ extension ViewController: CellDidChangeDelegate {
     }
     
     func cellTextFieldValidationError(_ indexPath: IndexPath) {
-        showAlertWithTitle("Validation error", message: "for: \(loadedInputDataSource[indexPath.row].title)")
+        presentAlertWithTitle("Validation error", andMessage: "for: \(loadedInputDataSource[indexPath.row].title)")
     }
     
     func cellTextFieldValidationPassed(_ indexPath: IndexPath) {

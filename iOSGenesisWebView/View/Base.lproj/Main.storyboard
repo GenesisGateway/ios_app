@@ -18,17 +18,75 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="3j2-GC-pnD"/>
+                        <segue destination="TKQ-Kl-jsV" kind="relationship" relationship="rootViewController" id="0Bq-qN-95U"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MWR-H0-Tnv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-503" y="-530"/>
+            <point key="canvasLocation" x="-328" y="-565"/>
         </scene>
-        <!--View Controller-->
+        <!--Transaction Type View Controller-->
+        <scene sceneID="H3e-gU-GkJ">
+            <objects>
+                <viewController id="TKQ-Kl-jsV" customClass="TransactionTypeViewController" customModule="iOSGenesisWebView" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="wv2-Xd-kfa"/>
+                        <viewControllerLayoutGuide type="bottom" id="7ev-wA-96K"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="p0X-im-dNz">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="eWU-rJ-Anj">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TransactionTypeCell" textLabel="iP2-zn-jqr" style="IBUITableViewCellStyleDefault" id="D9g-pO-nv4">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="D9g-pO-nv4" id="e5V-F2-jhy">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="iP2-zn-jqr">
+                                                    <rect key="frame" x="15" y="0.0" width="345" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="TKQ-Kl-jsV" id="FSE-aa-kPO"/>
+                                    <outlet property="delegate" destination="TKQ-Kl-jsV" id="wtU-iF-64j"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="7ev-wA-96K" firstAttribute="top" secondItem="eWU-rJ-Anj" secondAttribute="bottom" id="Dhg-dH-wq8"/>
+                            <constraint firstItem="eWU-rJ-Anj" firstAttribute="leading" secondItem="p0X-im-dNz" secondAttribute="leading" id="hBq-34-hsM"/>
+                            <constraint firstItem="eWU-rJ-Anj" firstAttribute="top" secondItem="wv2-Xd-kfa" secondAttribute="bottom" id="k46-pc-fJM"/>
+                            <constraint firstAttribute="trailing" secondItem="eWU-rJ-Anj" secondAttribute="trailing" id="kan-RA-Lzw"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="dSk-dV-5eP"/>
+                    <connections>
+                        <outlet property="tableView" destination="eWU-rJ-Anj" id="E1k-1D-g7h"/>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="TransactionDetailsSegue" id="19B-H4-1Z9"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tmG-ds-RKn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="493.60000000000002" y="-565.36731634182911"/>
+        </scene>
+        <!--Transaction Details View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="iOSGenesisWebView" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="TransactionDetailsViewController" customModule="iOSGenesisWebView" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -179,7 +237,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="256.80000000000001" y="-530.28485757121439"/>
+            <point key="canvasLocation" x="1394" y="-565"/>
         </scene>
     </scenes>
 </document>
