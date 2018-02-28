@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  TransactionDetailsViewController.swift
 //  iOSGenesisWebView
 //
 
@@ -49,12 +49,6 @@ final class TransactionDetailsViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShowNotification), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHideNotification), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     
-        setupView()
-    }
-    
-    private func setupView() {
-        self.title = transactionType?.rawValue
-
         hideKeyboardWhenTappedAround()
     }
     
@@ -121,8 +115,7 @@ final class TransactionDetailsViewController: UIViewController {
                                          transactionTypes: [WPFPaymentTransactionType(name: transactionType!)],
                                          notificationUrl: loadedInputDataSource[13].value)
         
-        let credentials = Credentials(withUsername: "e304299924f8abb9c1caa926fb0e819c46e81f66", andPassword: "f55047e58b69a60d6839c97eb0290093ba605010")
-//        let credentials = Credentials(withUsername: "YOUR_USERNAME", andPassword: "YOUR_PASSWORD")
+        let credentials = Credentials(withUsername: "YOUR_USERNAME", andPassword: "YOUR_PASSWORD")
         
         let configuration = Configuration(credentials: credentials, language: .en, environment: .staging, endpoint: .emerchantpay)
         genesisWebView = GenesisWebView(configuration: configuration, request: requestModel)

@@ -1,14 +1,12 @@
 //
-//  TransactionTypeViewController.swift
+//  HomeViewController.swift
 //  iOSGenesisWebView
-//
-//  Created by Ivelin Tsankov eMerchantPay on 28.02.18.
 //
 
 import UIKit
 import GenesisSwift
 
-class TransactionTypeViewController: UIViewController {
+class HomeViewController: UIViewController {
     
     let transactionTypes: [TransactionName] = [.authorize, .sale, .sale3d, .paysafecard].sorted(by: { $0.rawValue < $1.rawValue })
     
@@ -18,11 +16,21 @@ class TransactionTypeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.setupView()
     }
     
-    public func descriptionForTransactionName(transactionName: TransactionName) -> String {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.isNavigationBarHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        navigationController?.isNavigationBarHidden = false
+    }
+    
+    private func descriptionForTransactionName(transactionName: TransactionName) -> String {
         switch transactionName.rawValue {
         case TransactionName.sale.rawValue: return "Sale"
         case TransactionName.sale3d.rawValue: return "Sale3D"
@@ -33,20 +41,31 @@ class TransactionTypeViewController: UIViewController {
         }
     }
     
-    private func setupView() {
-        self.title = "Transaction Types"
+    @IBAction func privacyPolicyButtonPressed() {
+        openURLString(urlString: "https://www.genesissupport247.com/privacy-policy/")
+    }
+    
+    @IBAction func termsAndConditionsButtonPressed() {
+        openURLString(urlString: "https://www.genesissupport247.com/terms-conditions/")
+    }
+    
+    private func openURLString(urlString: String) {
+        UIApplication.shared.openURL(URL(string: urlString)!)
+
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "TransactionDetailsSegue" {
             let transactionDetails = segue.destination as! TransactionDetailsViewController
-            transactionDetails.transactionType = transactionTypes[(tableView.indexPathForSelectedRow?.row)!]
+            let transaction = transactionTypes[(tableView.indexPathForSelectedRow?.row)!]
+            transactionDetails.transactionType = transaction
+            transactionDetails.title = descriptionForTransactionName(transactionName: transaction)
         }
     }
 }
 
 // MARK: - UITableViewDataSource
-extension TransactionTypeViewController: UITableViewDataSource {
+extension HomeViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return transactionTypes.count
@@ -64,9 +83,10 @@ extension TransactionTypeViewController: UITableViewDataSource {
 }
 
 // MARK: - UITableViewDelegate
-extension TransactionTypeViewController: UITableViewDelegate {
+extension HomeViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-       self.performSegue(withIdentifier: "TransactionDetailsSegue", sender: nil)
+        performSegue(withIdentifier: "TransactionDetailsSegue", sender: nil)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }

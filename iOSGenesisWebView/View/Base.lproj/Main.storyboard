@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -25,10 +26,10 @@
             </objects>
             <point key="canvasLocation" x="-328" y="-565"/>
         </scene>
-        <!--Transaction Type View Controller-->
+        <!--Home View Controller-->
         <scene sceneID="H3e-gU-GkJ">
             <objects>
-                <viewController id="TKQ-Kl-jsV" customClass="TransactionTypeViewController" customModule="iOSGenesisWebView" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="TKQ-Kl-jsV" customClass="HomeViewController" customModule="iOSGenesisWebView" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="wv2-Xd-kfa"/>
                         <viewControllerLayoutGuide type="bottom" id="7ev-wA-96K"/>
@@ -37,8 +38,34 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="CtA-UH-TeJ">
+                                <rect key="frame" x="0.0" y="72" width="375" height="124"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="124" id="xCr-es-jho"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ufh-Gx-bV5">
+                                <rect key="frame" x="16" y="233" width="95" height="30"/>
+                                <state key="normal" title="Privacy Policy"/>
+                                <connections>
+                                    <action selector="privacyPolicyButtonPressed" destination="TKQ-Kl-jsV" eventType="touchUpInside" id="yYE-iO-CmY"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rJ7-h8-m4S">
+                                <rect key="frame" x="224" y="233" width="135" height="30"/>
+                                <state key="normal" title="Terms &amp; Conditions"/>
+                                <connections>
+                                    <action selector="termsAndConditionsButtonPressed" destination="TKQ-Kl-jsV" eventType="touchUpInside" id="Nae-BE-vRF"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please select transaction type:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RBU-T0-EDm">
+                                <rect key="frame" x="16" y="271" width="344" height="17"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="eWU-rJ-Anj">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="296" width="375" height="371"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TransactionTypeCell" textLabel="iP2-zn-jqr" style="IBUITableViewCellStyleDefault" id="D9g-pO-nv4">
@@ -51,7 +78,7 @@
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="iP2-zn-jqr">
                                                     <rect key="frame" x="15" y="0.0" width="345" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -64,13 +91,37 @@
                                     <outlet property="delegate" destination="TKQ-Kl-jsV" id="wtU-iF-64j"/>
                                 </connections>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Genesis In-app payments Demo" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pbT-5y-hvT">
+                                <rect key="frame" x="16" y="204" width="343" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="0Je-Hu-Ikf"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="7ev-wA-96K" firstAttribute="top" secondItem="eWU-rJ-Anj" secondAttribute="bottom" id="Dhg-dH-wq8"/>
-                            <constraint firstItem="eWU-rJ-Anj" firstAttribute="leading" secondItem="p0X-im-dNz" secondAttribute="leading" id="hBq-34-hsM"/>
-                            <constraint firstItem="eWU-rJ-Anj" firstAttribute="top" secondItem="wv2-Xd-kfa" secondAttribute="bottom" id="k46-pc-fJM"/>
-                            <constraint firstAttribute="trailing" secondItem="eWU-rJ-Anj" secondAttribute="trailing" id="kan-RA-Lzw"/>
+                            <constraint firstItem="CtA-UH-TeJ" firstAttribute="trailing" secondItem="eWU-rJ-Anj" secondAttribute="trailing" id="5Ei-AR-5VM"/>
+                            <constraint firstItem="ufh-Gx-bV5" firstAttribute="baseline" secondItem="rJ7-h8-m4S" secondAttribute="baseline" id="7x8-Fz-ZmG"/>
+                            <constraint firstAttribute="trailing" secondItem="CtA-UH-TeJ" secondAttribute="trailing" id="A5s-Hd-QgY"/>
+                            <constraint firstItem="pbT-5y-hvT" firstAttribute="centerX" secondItem="RBU-T0-EDm" secondAttribute="centerX" id="Aaw-mP-dih"/>
+                            <constraint firstItem="ufh-Gx-bV5" firstAttribute="leading" secondItem="RBU-T0-EDm" secondAttribute="leading" id="CzN-XW-jeJ"/>
+                            <constraint firstItem="RBU-T0-EDm" firstAttribute="top" secondItem="ufh-Gx-bV5" secondAttribute="bottom" constant="8" symbolic="YES" id="Gjb-q5-HE0"/>
+                            <constraint firstItem="rJ7-h8-m4S" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="p0X-im-dNz" secondAttribute="leadingMargin" id="Kby-bS-I4N"/>
+                            <constraint firstItem="CtA-UH-TeJ" firstAttribute="top" secondItem="wv2-Xd-kfa" secondAttribute="bottom" constant="8" symbolic="YES" id="TdB-YR-5zc"/>
+                            <constraint firstItem="ufh-Gx-bV5" firstAttribute="top" secondItem="pbT-5y-hvT" secondAttribute="bottom" constant="8" symbolic="YES" id="ZB0-nz-Tst"/>
+                            <constraint firstItem="eWU-rJ-Anj" firstAttribute="bottom" secondItem="7ev-wA-96K" secondAttribute="top" id="beq-hK-Mrc"/>
+                            <constraint firstItem="eWU-rJ-Anj" firstAttribute="top" secondItem="RBU-T0-EDm" secondAttribute="bottom" constant="8" symbolic="YES" id="dez-ex-qy3"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="ufh-Gx-bV5" secondAttribute="trailing" constant="20" symbolic="YES" id="dh6-Y5-OgH"/>
+                            <constraint firstItem="CtA-UH-TeJ" firstAttribute="leading" secondItem="p0X-im-dNz" secondAttribute="leading" id="iDC-Xg-yHt"/>
+                            <constraint firstItem="CtA-UH-TeJ" firstAttribute="leading" secondItem="eWU-rJ-Anj" secondAttribute="leading" id="iXA-g1-WDY"/>
+                            <constraint firstItem="pbT-5y-hvT" firstAttribute="leading" secondItem="ufh-Gx-bV5" secondAttribute="leading" id="ivK-Yg-1sH"/>
+                            <constraint firstItem="CtA-UH-TeJ" firstAttribute="centerX" secondItem="pbT-5y-hvT" secondAttribute="centerX" id="jqF-ft-iGi"/>
+                            <constraint firstItem="rJ7-h8-m4S" firstAttribute="trailing" secondItem="p0X-im-dNz" secondAttribute="trailingMargin" id="n7S-uh-k8h"/>
+                            <constraint firstItem="pbT-5y-hvT" firstAttribute="top" secondItem="CtA-UH-TeJ" secondAttribute="bottom" constant="8" symbolic="YES" id="sZ4-n6-bHf"/>
+                            <constraint firstItem="pbT-5y-hvT" firstAttribute="leading" secondItem="p0X-im-dNz" secondAttribute="leadingMargin" id="xOv-Ci-FFY"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="dSk-dV-5eP"/>
@@ -240,4 +291,7 @@
             <point key="canvasLocation" x="1394" y="-565"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Logo" width="512" height="512"/>
+    </resources>
 </document>

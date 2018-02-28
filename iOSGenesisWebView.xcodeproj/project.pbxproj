@@ -21,7 +21,7 @@
 		2DC0B4F61F94C3EF00C536EF /* PickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DC0B4F51F94C3EE00C536EF /* PickerTableViewCell.swift */; };
 		2E36469E204456F700F7FE9D /* GenesisSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E364699204456E900F7FE9D /* GenesisSwift.framework */; };
 		2E3646A420454D6900F7FE9D /* GenesisSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2E364699204456E900F7FE9D /* GenesisSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		2E707B7D20468E4500DE8147 /* TransactionTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E707B7C20468E4500DE8147 /* TransactionTypeViewController.swift */; };
+		2E707B7D20468E4500DE8147 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E707B7C20468E4500DE8147 /* HomeViewController.swift */; };
 		2E707B832046A50200DE8147 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E707B822046A50200DE8147 /* UIViewControllerExtension.swift */; };
 /* End PBXBuildFile section */
 
@@ -96,7 +96,7 @@
 		2D570D511F3CB452001DE81E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2DC0B4F51F94C3EE00C536EF /* PickerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerTableViewCell.swift; sourceTree = "<group>"; };
 		2E364693204456E900F7FE9D /* GenesisSwift.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GenesisSwift.xcodeproj; path = ios_sdk/GenesisSwift.xcodeproj; sourceTree = "<group>"; };
-		2E707B7C20468E4500DE8147 /* TransactionTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionTypeViewController.swift; sourceTree = "<group>"; };
+		2E707B7C20468E4500DE8147 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		2E707B822046A50200DE8147 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -192,7 +192,7 @@
 			isa = PBXGroup;
 			children = (
 				2D570D471F3CB452001DE81E /* TransactionDetailsViewController.swift */,
-				2E707B7C20468E4500DE8147 /* TransactionTypeViewController.swift */,
+				2E707B7C20468E4500DE8147 /* HomeViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -371,7 +371,7 @@
 				2D570D461F3CB452001DE81E /* AppDelegate.swift in Sources */,
 				2D13FAA51FB3A1F300E0E529 /* ValidatedInputData.swift in Sources */,
 				2D32D9FD1F8ACC5800A43FE0 /* InputTableViewCell.swift in Sources */,
-				2E707B7D20468E4500DE8147 /* TransactionTypeViewController.swift in Sources */,
+				2E707B7D20468E4500DE8147 /* HomeViewController.swift in Sources */,
 				2D13FAA41FB3A1F300E0E529 /* PickerData.swift in Sources */,
 				2D13FAA31FB3A1F300E0E529 /* InputData.swift in Sources */,
 			);

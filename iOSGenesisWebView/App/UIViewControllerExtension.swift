@@ -2,8 +2,6 @@
 //  UIViewControllerExtension.swift
 //  iOSGenesisWebView
 //
-//  Created by Ivelin Tsankov eMerchantPay on 28.02.18.
-//
 
 import UIKit
 
