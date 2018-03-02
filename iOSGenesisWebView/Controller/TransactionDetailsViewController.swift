@@ -18,11 +18,6 @@ final class TransactionDetailsViewController: UIViewController {
     @IBOutlet weak var bottomLayoutConstraint: NSLayoutConstraint!
     @IBOutlet weak var tableView: UITableView!
     
-    fileprivate var webViewController: WebViewController?
-    
-    var requestModel: WPFPaymentRequest!
-    var genesisWebView: GenesisWebView!
-    
     let userDefaultsKey = "UserDefaultsDataKey"
     
     private var _loadedInputDataSource: Array<DataProtocol>?
@@ -92,38 +87,45 @@ final class TransactionDetailsViewController: UIViewController {
         return name
     }
     
-    func makeRequest() {
-    
-        guard let amount = loadedInputDataSource[1].value.explicitConvertionToDecimal() else {
-            presentAlertWithTitle("Amount error")
-            return
-        }
+    func showPayForm() {
+        //WPFPaymentAddress for Genesis
+        let paymentAddress = WPFPaymentAddress(firstName: loadedInputDataSource[5].value,
+                                               lastName: loadedInputDataSource[6].value,
+                                               address1: loadedInputDataSource[7].value,
+                                               address2: loadedInputDataSource[8].value,
+                                               zipCode: loadedInputDataSource[9].value,
+                                               city: loadedInputDataSource[10].value,
+                                               state: loadedInputDataSource[11].value,
+                                               country: self.isoCodeForCountryName(loadedInputDataSource[12].value))
         
-        requestModel = WPFPaymentRequest(transactionId: loadedInputDataSource[0].value,
-                                         amount: amount,
-                                         currency: loadedInputDataSource[2].value,
-                                         customerEmail: loadedInputDataSource[3].value,
-                                         customerPhone: loadedInputDataSource[4].value,
-                                         billingAddress: WPFPaymentAddress(firstName: loadedInputDataSource[5].value,
-                                                                           lastName: loadedInputDataSource[6].value,
-                                                                           address1: loadedInputDataSource[7].value,
-                                                                           address2: loadedInputDataSource[8].value,
-                                                                           zipCode: loadedInputDataSource[9].value,
-                                                                           city: loadedInputDataSource[10].value,
-                                                                           state: loadedInputDataSource[11].value,
-                                                                           country: self.isoCodeForCountryName(loadedInputDataSource[12].value)),
-                                         transactionTypes: [WPFPaymentTransactionType(name: transactionType!)],
-                                         notificationUrl: loadedInputDataSource[13].value)
+        //WPFPaymentRequest for Genesis
+        let paymentRequest = WPFPaymentRequest(transactionId: loadedInputDataSource[0].value,
+                                               amount: loadedInputDataSource[1].value.explicitConvertionToDecimal()!,
+                                               currency: loadedInputDataSource[2].value,
+                                               customerEmail: loadedInputDataSource[3].value,
+                                               customerPhone: loadedInputDataSource[4].value,
+                                               billingAddress: paymentAddress,
+                                               transactionTypes: [WPFPaymentTransactionType(name: transactionType!)],
+                                               notificationUrl: loadedInputDataSource[13].value)
         
+        //Credentials for Genesis
         let credentials = Credentials(withUsername: "YOUR_USERNAME", andPassword: "YOUR_PASSWORD")
-        
-        let configuration = Configuration(credentials: credentials, language: .en, environment: .staging, endpoint: .emerchantpay)
-        genesisWebView = GenesisWebView(configuration: configuration, request: requestModel)
-        genesisWebView.genesisWebViewDelegate = self
-        genesisWebView.loadRequest()
 
-        webViewController = WebViewController()
-        navigationController?.pushViewController(webViewController!, animated: true)
+        //Configuration for Genesis
+        let configuration = Configuration(credentials: credentials, language: .en, environment: .staging, endpoint: .emerchantpay)
+        
+        //Init Genesis with Configuration and WPFPaymentRequest
+        let genesis = Genesis(withConfiguration: configuration, paymentRequest: paymentRequest, forDelegate: self)
+        
+        //show Genesis payment form
+        //Push to navigation controller
+        genesis.push(toNavigationController: navigationController!, animated: true)
+        
+        //Present to modal view
+        //genesis.present(toViewController: self, animated: true)
+        
+        //Use genesis.genesisViewController() and show how you want
+        //self.show(genesis.genesisViewController(), sender: nil)
     }
 }
 
@@ -172,34 +174,32 @@ extension TransactionDetailsViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if (indexPath.row == loadedInputDataSource.count) {
-            makeRequest()
+            guard (loadedInputDataSource[1].value.explicitConvertionToDecimal() != nil) else {
+                presentAlertWithTitle("Amount error")
+                return
+            }
+            
+            showPayForm()
         }
     }
 }
 
-// MARK: - GenesisWebViewProtocol
-extension TransactionDetailsViewController: GenesisWebViewDelegate {
-    
-    func genesisWebViewDidFinishLoading() {
-        webViewController?.indicator.stopAnimating()
-        webViewController?.addView(genesisWebView.webView)
+// MARK: - GenesisDelegate
+extension TransactionDetailsViewController: GenesisDelegate {
+
+    func genesisDidFinishLoading() {
+
     }
-    
-    func genesisWebViewDidEndWithSuccess() {
-        webViewController?.back()
-        
-        presentAlertWithTitle("Success", andMessage: "Success redirection")
+
+    func genesisDidEndWithSuccess() {
+        presentAlertWithTitle("Success", andMessage: "Success transaction")
     }
-    
-    func genesisWebViewDidEndWithFailure(errorCode: GenesisErrorCode) {
-        webViewController?.back()
-        
+
+    func genesisDidEndWithFailure(errorCode: GenesisErrorCode) {
         presentAlertWithTitle("Failure", andMessage: "code: \(errorCode.code ?? "unknown")\n technical: \(errorCode.technicalMessage ?? "unknown")\n message: \(errorCode.message ?? "unknown")")
     }
-    
-    func genesisWebViewDidEndWithCancel() {
-        webViewController?.back()
-        
+
+    func genesisDidEndWithCancel() {
         presentAlertWithTitle("Canceled")
     }
 }
