@@ -125,7 +125,7 @@ final class TransactionDetailsViewController: UIViewController {
         //genesis.present(toViewController: self, animated: true)
         
         //Use genesis.genesisViewController() and show how you want
-        //self.show(genesis.genesisViewController(), sender: nil)
+        //let genesisViewController = genesis.genesisViewController()
     }
 }
 
