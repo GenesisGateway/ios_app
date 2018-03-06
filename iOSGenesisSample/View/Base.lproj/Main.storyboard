@@ -29,7 +29,7 @@
         <!--Home View Controller-->
         <scene sceneID="H3e-gU-GkJ">
             <objects>
-                <viewController id="TKQ-Kl-jsV" customClass="HomeViewController" customModule="iOSGenesisWebView" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HomeViewController" id="TKQ-Kl-jsV" customClass="HomeViewController" customModule="iOSGenesisSample" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="wv2-Xd-kfa"/>
                         <viewControllerLayoutGuide type="bottom" id="7ev-wA-96K"/>
@@ -137,7 +137,7 @@
         <!--Transaction Details View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="TransactionDetailsViewController" customModule="iOSGenesisWebView" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TransactionDetailsViewController" id="BYZ-38-t0r" customClass="TransactionDetailsViewController" customModule="iOSGenesisSample" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -150,7 +150,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="InputTableViewCell" rowHeight="109" id="Hj1-8V-EcS" customClass="InputTableViewCell" customModule="iOSGenesisWebView" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="InputTableViewCell" rowHeight="109" id="Hj1-8V-EcS" customClass="InputTableViewCell" customModule="iOSGenesisSample" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="109"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Hj1-8V-EcS" id="tFh-Ti-AYN">
@@ -194,7 +194,7 @@
                                             <outlet property="inputTitleLabel" destination="OCF-zh-kcs" id="XPT-gh-m3Y"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="PickerTableViewCell" rowHeight="109" id="lhX-B4-gly" customClass="PickerTableViewCell" customModule="iOSGenesisWebView" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="PickerTableViewCell" rowHeight="109" id="lhX-B4-gly" customClass="PickerTableViewCell" customModule="iOSGenesisSample" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="137" width="375" height="109"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="lhX-B4-gly" id="b8B-xC-QaA">
@@ -238,7 +238,7 @@
                                             <outlet property="inputTitleLabel" destination="gT1-8S-oxh" id="Vp8-bk-m9r"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="PayTableViewCell" rowHeight="50" id="O1m-qA-02M" customClass="InputTableViewCell" customModule="iOSGenesisWebView" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="PayTableViewCell" rowHeight="50" id="O1m-qA-02M" customClass="InputTableViewCell" customModule="iOSGenesisSample" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="246" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="O1m-qA-02M" id="d4R-pd-6Ik">

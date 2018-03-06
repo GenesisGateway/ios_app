@@ -79,7 +79,7 @@ final class TransactionDetailsViewController: UIViewController {
                        completion: nil)
     }
     
-    private func isoCodeForCountryName(_ name: String) -> String {
+    func isoCodeForCountryName(_ name: String) -> String {
         if let i = IsoCountries.allCountries.index(where: { $0.name == name }) {
             return IsoCountries.allCountries[i].alpha2
         }
