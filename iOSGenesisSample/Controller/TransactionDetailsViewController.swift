@@ -1,6 +1,6 @@
 //
 //  TransactionDetailsViewController.swift
-//  iOSGenesisWebView
+//  iOSGenesisSample
 //
 
 import UIKit

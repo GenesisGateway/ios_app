@@ -1,6 +1,6 @@
 //
 //  PickerTableViewCell.swift
-//  iOSGenesisWebView
+//  iOSGenesisSample
 //
 
 import UIKit

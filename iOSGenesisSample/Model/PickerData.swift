@@ -1,6 +1,6 @@
 //
 //  PickerData.swift
-//  iOSGenesisWebView
+//  iOSGenesisSample
 //
 
 import Foundation

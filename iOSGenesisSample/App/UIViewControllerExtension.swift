@@ -1,6 +1,6 @@
 //
 //  UIViewControllerExtension.swift
-//  iOSGenesisWebView
+//  iOSGenesisSample
 //
 
 import UIKit

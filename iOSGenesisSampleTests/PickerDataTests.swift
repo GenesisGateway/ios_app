@@ -1,14 +1,14 @@
 //
-//  InputDataTests.swift
+//  PickerDataTests.swift
 //  GenesisWebViewTests
 //
 
 import XCTest
-@testable import iOSGenesisWebView
+@testable import iOSGenesisSample
 
-class InputDataTests: XCTestCase {
+class PickerDataTests: XCTestCase {
     
-    var sut: InputData!
+    var sut: PickerData!
     
     override func setUp() {
         super.setUp()
@@ -19,7 +19,7 @@ class InputDataTests: XCTestCase {
     }
     
     func testProperties() {
-        sut = InputData(title: "fixed.title", value: "fixed.value")
+        sut = PickerData(title: "fixed.title", value: "fixed.value", items: [])
         XCTAssertEqual(sut.title, "fixed.title")
         XCTAssertEqual(sut.value, "fixed.value")
     }

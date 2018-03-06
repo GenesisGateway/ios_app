@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  iOSGenesisWebView
+//  iOSGenesisSample
 //
 
 import UIKit

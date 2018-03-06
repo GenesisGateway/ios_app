@@ -1,6 +1,6 @@
 //
 //  HomeViewController.swift
-//  iOSGenesisWebView
+//  iOSGenesisSample
 //
 
 import UIKit

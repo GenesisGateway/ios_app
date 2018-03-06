@@ -1,6 +1,6 @@
 //
 //  InputData.swift
-//  iOSGenesisWebView
+//  iOSGenesisSample
 //
 
 import Foundation

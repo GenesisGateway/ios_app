@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D570D411F3CB452001DE81E"
-               BuildableName = "iOSGenesisWebView.app"
-               BlueprintName = "iOSGenesisWebView"
-               ReferencedContainer = "container:iOSGenesisWebView.xcodeproj">
+               BuildableName = "iOSGenesisSample.app"
+               BlueprintName = "iOSGenesisSample"
+               ReferencedContainer = "container:iOSGenesisSample.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -34,9 +34,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D13FABC1FB9F83500E0E529"
-               BuildableName = "iOSGenesisWebViewTests.xctest"
-               BlueprintName = "iOSGenesisWebViewTests"
-               ReferencedContainer = "container:iOSGenesisWebView.xcodeproj">
+               BuildableName = "iOSGenesisSampleTests.xctest"
+               BlueprintName = "iOSGenesisSampleTests"
+               ReferencedContainer = "container:iOSGenesisSample.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -44,9 +44,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D570D411F3CB452001DE81E"
-            BuildableName = "iOSGenesisWebView.app"
-            BlueprintName = "iOSGenesisWebView"
-            ReferencedContainer = "container:iOSGenesisWebView.xcodeproj">
+            BuildableName = "iOSGenesisSample.app"
+            BlueprintName = "iOSGenesisSample"
+            ReferencedContainer = "container:iOSGenesisSample.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -68,9 +68,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D570D411F3CB452001DE81E"
-            BuildableName = "iOSGenesisWebView.app"
-            BlueprintName = "iOSGenesisWebView"
-            ReferencedContainer = "container:iOSGenesisWebView.xcodeproj">
+            BuildableName = "iOSGenesisSample.app"
+            BlueprintName = "iOSGenesisSample"
+            ReferencedContainer = "container:iOSGenesisSample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -87,9 +87,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D570D411F3CB452001DE81E"
-            BuildableName = "iOSGenesisWebView.app"
-            BlueprintName = "iOSGenesisWebView"
-            ReferencedContainer = "container:iOSGenesisWebView.xcodeproj">
+            BuildableName = "iOSGenesisSample.app"
+            BlueprintName = "iOSGenesisSample"
+            ReferencedContainer = "container:iOSGenesisSample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

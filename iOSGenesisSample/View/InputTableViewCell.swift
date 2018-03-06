@@ -1,6 +1,6 @@
 //
 //  InputTableViewCell.swift
-//  iOSGenesisWebView
+//  iOSGenesisSample
 //
 
 import UIKit
