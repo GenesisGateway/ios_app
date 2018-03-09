@@ -9,7 +9,8 @@ import XCTest
 
 class InputDataTests: XCTestCase {
     
-    var sut: InputData!
+    var sut: InputDataObject!
+    var data = InputData()
     
     override func setUp() {
         super.setUp()
@@ -20,7 +21,7 @@ class InputDataTests: XCTestCase {
     }
     
     func testProperties() {
-        sut = InputData(title: "fixed.title", value: "fixed.value")
+        sut = InputDataObject(title: "fixed.title", value: "fixed.value")
         XCTAssertEqual(sut.title, "fixed.title")
         XCTAssertEqual(sut.value, "fixed.value")
     }
@@ -42,20 +43,31 @@ class InputDataTests: XCTestCase {
     }
     
     func testDefaultInputData() {
-        let inputDataDefault = InputDataHelper.inputDataDefault
+        let inputDataDefault = data.allObjects
 
-        self.testInputData(data: inputDataDefault)
+        self.testInputData(data: inputDataDefault as! [DataProtocol])
     }
     
     func testConverts() {
-        let inputDataDefault = InputDataHelper.inputDataDefault
+        let inputDataDefault = data.allObjects
         
-        let inputArray = InputDataHelper.convertInputDataToArray(inputArray: inputDataDefault)
+        let inputArray = data.convertInputDataToArray(inputArray: inputDataDefault as! Array<DataProtocol>)
         
         XCTAssertTrue(inputArray.count > 0)
         
-        let inputData = InputDataHelper.convertArrayToInputData(inputArray: inputArray)
+        let inputData = data.convertArrayToInputData(inputArray: inputArray)
         
         self.testInputData(data: inputData)
+    }
+    
+    func testSave() {
+        data.address1.value = "New.fixed.address1"
+        data.save()
+        
+        let newData = InputData()
+        XCTAssertEqual(newData.address1.value, "New.fixed.address1")
+        
+        newData.address1.value = "23, Doestreet"
+        newData.save()
     }
 }

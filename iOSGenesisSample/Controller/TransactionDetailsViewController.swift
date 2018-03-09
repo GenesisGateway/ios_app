@@ -7,8 +7,8 @@ import UIKit
 import GenesisSwift
 
 protocol CellDidChangeDelegate: class {
-    func cellTextFieldDidChange(_: (DataProtocol, IndexPath))
-    func cellTextFieldValidationError(_ indexPath: IndexPath)
+    func cellTextFieldDidChange(value: Any, IndexPath: IndexPath)
+    func cellTextFieldValidationError(_ indexPath: IndexPath, textField: UITextField)
     func cellTextFieldValidationPassed(_ indexPath: IndexPath)
 }
 
@@ -18,26 +18,8 @@ final class TransactionDetailsViewController: UIViewController {
     @IBOutlet weak var bottomLayoutConstraint: NSLayoutConstraint!
     @IBOutlet weak var tableView: UITableView!
     
-    let userDefaultsKey = "UserDefaultsDataKey"
-    
-    private var _loadedInputDataSource: Array<DataProtocol>?
-    var loadedInputDataSource: Array<DataProtocol> {
-        get {
-            guard let loaded = UserDefaults.standard.array(forKey: userDefaultsKey) else {
-                return InputDataHelper.inputDataDefault
-            }
-            if _loadedInputDataSource == nil {
-                _loadedInputDataSource = InputDataHelper.convertArrayToInputData(inputArray: loaded as! Array<Dictionary<String, String>>)
-                _loadedInputDataSource![0] = InputData(title:"transactionId", value: "wev238f328nc" + String(arc4random_uniform(999999)))
-            }
-            return _loadedInputDataSource!
-        }
-        set (newData) {
-            _loadedInputDataSource = newData
-            UserDefaults.standard.set(InputDataHelper.convertInputDataToArray(inputArray:_loadedInputDataSource!), forKey: userDefaultsKey)
-        }
-    }
-    
+    var data = InputData()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -79,34 +61,26 @@ final class TransactionDetailsViewController: UIViewController {
                        completion: nil)
     }
     
-    func isoCodeForCountryName(_ name: String) -> String {
-        if let i = IsoCountries.allCountries.index(where: { $0.name == name }) {
-            return IsoCountries.allCountries[i].alpha2
-        }
-        
-        return name
-    }
-    
     func showPayForm() {
         //WPFPaymentAddress for Genesis
-        let paymentAddress = WPFPaymentAddress(firstName: loadedInputDataSource[5].value,
-                                               lastName: loadedInputDataSource[6].value,
-                                               address1: loadedInputDataSource[7].value,
-                                               address2: loadedInputDataSource[8].value,
-                                               zipCode: loadedInputDataSource[9].value,
-                                               city: loadedInputDataSource[10].value,
-                                               state: loadedInputDataSource[11].value,
-                                               country: self.isoCodeForCountryName(loadedInputDataSource[12].value))
+        let paymentAddress = WPFPaymentAddress(firstName: data.firstName.value,
+                                               lastName: data.lastName.value,
+                                               address1: data.address1.value,
+                                               address2: data.address2.value,
+                                               zipCode: data.zipCode.value,
+                                               city: data.city.value,
+                                               state: data.state.value,
+                                               country: IsoCountryCodes.search(byName: data.country.value))
         
         //WPFPaymentRequest for Genesis
-        let paymentRequest = WPFPaymentRequest(transactionId: loadedInputDataSource[0].value,
-                                               amount: loadedInputDataSource[1].value.explicitConvertionToDecimal()!,
-                                               currency: loadedInputDataSource[2].value,
-                                               customerEmail: loadedInputDataSource[3].value,
-                                               customerPhone: loadedInputDataSource[4].value,
+        let paymentRequest = WPFPaymentRequest(transactionId: data.transactionId.value,
+                                               amount: data.amount.value.explicitConvertionToDecimal()!,
+                                               currency: Currencies.findCurrencyInfoByName(name: data.currency.value)!,
+                                               customerEmail: data.customerEmail.value,
+                                               customerPhone: data.customerPhone.value,
                                                billingAddress: paymentAddress,
-                                               transactionTypes: [WPFPaymentTransactionType(name: transactionType!)],
-                                               notificationUrl: loadedInputDataSource[13].value)
+                                               transactionTypes: [transactionType!],
+                                               notificationUrl: data.notificationUrl.value)
         
         //Credentials for Genesis
         let credentials = Credentials(withUsername: "YOUR_USERNAME", andPassword: "YOUR_PASSWORD")
@@ -133,31 +107,31 @@ final class TransactionDetailsViewController: UIViewController {
 extension TransactionDetailsViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return loadedInputDataSource.count + 1
+        return data.allObjects.count + 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if (indexPath.row == loadedInputDataSource.count) {
+        if (indexPath.row == data.allObjects.count) {
             let cell = tableView.dequeueReusableCell(withIdentifier: "PayTableViewCell", for: indexPath)
             return cell
         } else {
             
-            let data: DataProtocol = loadedInputDataSource[indexPath.row]
+            let rowData = data.allObjects[indexPath.row]
             
-            if data is InputData || data is ValidatedInputData {
+            if rowData is InputDataObject || rowData is ValidatedInputData {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "InputTableViewCell", for: indexPath) as! InputTableViewCell
                 
-                cell.data = data
+                cell.data = rowData as! DataProtocol
                 cell.indexPath = indexPath
                 cell.delegate = self
                 
                 return cell
             }
             
-            if data is PickerData {
+            if rowData is PickerData {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "PickerTableViewCell", for: indexPath) as! PickerTableViewCell
                 
-                cell.data = data as! PickerData
+                cell.data = rowData as! PickerData
                 cell.indexPath = indexPath
                 cell.delegate = self
                 
@@ -173,8 +147,8 @@ extension TransactionDetailsViewController: UITableViewDataSource {
 extension TransactionDetailsViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if (indexPath.row == loadedInputDataSource.count) {
-            guard (loadedInputDataSource[1].value.explicitConvertionToDecimal() != nil) else {
+        if (indexPath.row == data.allObjects.count) {
+            guard (data.amount.value.explicitConvertionToDecimal() != nil) else {
                 presentAlertWithTitle("Amount error")
                 return
             }
@@ -206,16 +180,17 @@ extension TransactionDetailsViewController: GenesisDelegate {
 
 // MARK: - CellDidChangeDelegate
 extension TransactionDetailsViewController: CellDidChangeDelegate {
- 
-    func cellTextFieldDidChange(_ tuple: (DataProtocol, IndexPath)) {
-        let (dataProtocol, indexPath) = tuple
-        var tmpArray = loadedInputDataSource
-        tmpArray[indexPath.row] = dataProtocol
-        loadedInputDataSource = tmpArray
+    
+    func cellTextFieldDidChange(value: Any, IndexPath: IndexPath) {
+        var dataObject = data.allObjects[IndexPath.row] as! DataProtocol
+        dataObject.value = value as! String
+
+        data.save()
     }
     
-    func cellTextFieldValidationError(_ indexPath: IndexPath) {
-        presentAlertWithTitle("Validation error", andMessage: "for: \(loadedInputDataSource[indexPath.row].title)")
+    func cellTextFieldValidationError(_ indexPath: IndexPath, textField: UITextField) {
+        textField.becomeFirstResponder()
+        presentAlertWithTitle("Validation error", andMessage: "for: \((data.allObjects[indexPath.row] as! DataProtocol).title)")
     }
     
     func cellTextFieldValidationPassed(_ indexPath: IndexPath) {

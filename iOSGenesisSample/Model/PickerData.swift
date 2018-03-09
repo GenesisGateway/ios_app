@@ -31,7 +31,7 @@ extension CurrencyInfo: PickerDataItem {
     }
 }
 
-public struct PickerData: DataProtocol {
+public class PickerData: DataProtocol {
     public var title: String
     public var value: String
     public var items: [PickerDataItem]

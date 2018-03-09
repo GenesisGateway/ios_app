@@ -66,7 +66,8 @@ extension PickerTableViewCell: UIPickerViewDelegate {
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         let item = data.items[row]
-        data.value = item.pickerValue
-        delegate?.cellTextFieldDidChange((data, indexPath))
+        inputTextField.text = item.pickerValue
+
+        delegate?.cellTextFieldDidChange(value: item.pickerValue, IndexPath: indexPath)
     }
 }

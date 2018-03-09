@@ -13,12 +13,10 @@ final class InputTableViewCell: UITableViewCell {
     
     var delegate: CellDidChangeDelegate?
  
-    var _data: DataProtocol!
     var data: DataProtocol! {
         didSet {
             inputTitleLabel.text = data.title
             inputTextField.text = data.value
-            _data = data
         }
     }
     var indexPath: IndexPath!
@@ -28,9 +26,12 @@ final class InputTableViewCell: UITableViewCell {
 extension InputTableViewCell: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        _data.value = _data.value.replacingCharacters(in: Range(range, in: _data.value)!,
-                                                      with: string)
-        delegate?.cellTextFieldDidChange((_data, indexPath))
+        if let text = textField.text, let textRange = Range(range, in: text) {
+            let updatedText = text.replacingCharacters(in: textRange,
+                                                       with: string)
+        
+            delegate?.cellTextFieldDidChange(value: updatedText, IndexPath: indexPath)
+        }
         
         return true
     }
@@ -40,7 +41,7 @@ extension InputTableViewCell: UITextFieldDelegate {
             let predicate = NSPredicate(format:"SELF MATCHES %@", data.regex)
             let evaluation = predicate.evaluate(with: inputTextField.text!)
             if evaluation == false {
-                delegate?.cellTextFieldValidationError(indexPath)
+                delegate?.cellTextFieldValidationError(indexPath, textField: inputTextField)
             } else {
                 delegate?.cellTextFieldValidationPassed(indexPath)
             }

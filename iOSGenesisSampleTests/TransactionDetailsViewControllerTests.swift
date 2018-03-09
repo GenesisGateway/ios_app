@@ -24,9 +24,4 @@ class TransactionDetailsViewControllerTests: XCTestCase {
         
         controller = nil
     }
-    
-    func testIsoCode() {
-        XCTAssertEqual(controller.isoCodeForCountryName("United States"), "US")
-        XCTAssertEqual(controller.isoCodeForCountryName("Fixed.Country"), "Fixed.Country")
-    }
 }
