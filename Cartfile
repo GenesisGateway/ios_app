@@ -1,2 +1,2 @@
 
-git "git@emp-sof-github01.emp.internal.com:eMerchantPay/ios_sdk.git" ~> 1.0
+git "https://github.com/GenesisGateway/ios_sdk.git"

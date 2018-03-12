@@ -99,7 +99,10 @@ final class TransactionDetailsViewController: UIViewController {
         //genesis.present(toViewController: self, animated: true)
         
         //Use genesis.genesisViewController() and show how you want
-        //let genesisViewController = genesis.genesisViewController()
+        //guard let genesisViewController = genesis.genesisViewController() else {
+        //    return
+        //}
+        //show(genesisViewController, sender: nil)
     }
 }
 
@@ -169,12 +172,16 @@ extension TransactionDetailsViewController: GenesisDelegate {
         presentAlertWithTitle("Success", andMessage: "Success transaction")
     }
 
-    func genesisDidEndWithFailure(errorCode: GenesisErrorCode) {
+    func genesisDidEndWithFailure(errorCode: GenesisError) {
         presentAlertWithTitle("Failure", andMessage: "code: \(errorCode.code ?? "unknown")\n technical: \(errorCode.technicalMessage ?? "unknown")\n message: \(errorCode.message ?? "unknown")")
     }
 
     func genesisDidEndWithCancel() {
         presentAlertWithTitle("Canceled")
+    }
+    
+    func genesisValidationError(error: Error) {
+        presentAlertWithTitle("SKD Validation error", andMessage: error.localizedDescription)
     }
 }
 

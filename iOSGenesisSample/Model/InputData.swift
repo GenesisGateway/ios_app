@@ -18,7 +18,7 @@ public class InputDataObject: DataProtocol {
 
 public class InputData: NSObject {    
     var transactionId = InputDataObject(title: "Transaction Id", value: "wev238f328nc" + String(arc4random_uniform(999999)))
-    var amount = ValidatedInputData(title:"Amount", value: "1,234.56", regex: "[0-9]{1,3}(,[0-9]{3})*.[0-9]{0,3}")
+    var amount = ValidatedInputData(title:"Amount", value: "1234.56", regex: "^?\\d*(\\.\\d{0,3})?$")
     var currency = PickerData(title:"Currency", value: "USD", items: Currencies().allCurrencies)
     var customerEmail = ValidatedInputData(title:"Customer Email", value: "john.doe@example.com", regex: "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}")
     var customerPhone = InputDataObject(title:"Customer Phone", value: "+11234567890")

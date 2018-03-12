@@ -6,7 +6,7 @@
 import Foundation
 import GenesisSwift
 
-public struct ValidatedInputData: DataProtocol {
+public class ValidatedInputData: DataProtocol {
     public var title: String
     public var value: String
     public var regex: String
