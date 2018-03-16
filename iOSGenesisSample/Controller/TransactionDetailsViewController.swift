@@ -43,6 +43,10 @@ final class TransactionDetailsViewController: UIViewController {
     }
     
     func updateBottomLayoutConstraintWithNotification(notification: NSNotification) {
+        guard self.isViewVisible() else {
+            return
+        }
+        
         let userInfo = notification.userInfo!
         
         let animationDuration = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue

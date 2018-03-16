@@ -24,4 +24,8 @@ extension UIViewController {
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
+    
+    func isViewVisible() -> Bool {
+        return self.isViewLoaded && (self.view.window != nil)
+    }
 }
