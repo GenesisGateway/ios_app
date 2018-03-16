@@ -27,12 +27,12 @@ class InputDataTests: XCTestCase {
     }
     
     func testInputData(data: [DataProtocol]) {
-        let customerEmail = data[3]
+        let customerEmail = data[4]
         
         XCTAssertEqual(customerEmail.title, "Customer Email")
         XCTAssertEqual(customerEmail.value, "john.doe@example.com")
         
-        let country = data[12] as? PickerData
+        let country = data[13] as? PickerData
         
         XCTAssertTrue(country != nil)
         

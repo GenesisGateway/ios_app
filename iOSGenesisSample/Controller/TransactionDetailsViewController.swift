@@ -82,6 +82,8 @@ final class TransactionDetailsViewController: UIViewController {
                                                transactionTypes: [transactionType!],
                                                notificationUrl: data.notificationUrl.value)
         
+        paymentRequest.usage = data.usage.value
+        
         //Credentials for Genesis
         let credentials = Credentials(withUsername: "YOUR_USERNAME", andPassword: "YOUR_PASSWORD")
 

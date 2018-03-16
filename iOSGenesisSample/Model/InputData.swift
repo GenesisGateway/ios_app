@@ -20,9 +20,10 @@ public class InputData: NSObject {
     var transactionId = InputDataObject(title: "Transaction Id", value: "wev238f328nc" + String(arc4random_uniform(999999)))
     var amount = ValidatedInputData(title:"Amount", value: "1234.56", regex: "^?\\d*(\\.\\d{0,3})?$")
     var currency = PickerData(title:"Currency", value: "USD", items: Currencies().allCurrencies)
+    var usage = InputDataObject(title:"Usage", value: "Tickets")
     var customerEmail = ValidatedInputData(title:"Customer Email", value: "john.doe@example.com", regex: "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}")
     var customerPhone = InputDataObject(title:"Customer Phone", value: "+11234567890")
-    var firstName =   InputDataObject(title:"First Name", value: "John")
+    var firstName = InputDataObject(title:"First Name", value: "John")
     var lastName = InputDataObject(title:"Last Name", value: "Doe")
     var address1 = InputDataObject(title:"Address 1", value: "23, Doestreet")
     var address2 = InputDataObject(title:"Address 2", value: "")
@@ -34,7 +35,7 @@ public class InputData: NSObject {
     
     public var allObjects: [Any] {
         get {
-            return [transactionId, amount, currency, customerEmail, customerPhone, firstName, lastName, address1, address2, zipCode, city, state, country, notificationUrl]
+            return [transactionId, amount, currency, usage, customerEmail, customerPhone, firstName, lastName, address1, address2, zipCode, city, state, country, notificationUrl]
         }
     }
     
@@ -55,6 +56,7 @@ public class InputData: NSObject {
             case "Transaction Id": continue
             case "Amount": amount = inputData as! ValidatedInputData
             case "Currency": currency = inputData as! PickerData
+            case "Usage": usage = inputData as! InputDataObject
             case "Customer Email": customerEmail = inputData as! ValidatedInputData
             case "Customer Phone": customerPhone = inputData as! InputDataObject
             case "First Name": firstName = inputData as! InputDataObject
