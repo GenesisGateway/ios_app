@@ -66,8 +66,8 @@ final class TransactionDetailsViewController: UIViewController {
     }
     
     func showPayForm() {
-        //WPFPaymentAddress for Genesis
-        let paymentAddress = WPFPaymentAddress(firstName: data.firstName.value,
+        //PaymentAddress for Genesis
+        let paymentAddress = PaymentAddress(firstName: data.firstName.value,
                                                lastName: data.lastName.value,
                                                address1: data.address1.value,
                                                address2: data.address2.value,
@@ -76,8 +76,8 @@ final class TransactionDetailsViewController: UIViewController {
                                                state: data.state.value,
                                                country: IsoCountryCodes.search(byName: data.country.value))
         
-        //WPFPaymentRequest for Genesis
-        let paymentRequest = WPFPaymentRequest(transactionId: data.transactionId.value,
+        //PaymentRequest for Genesis
+        let paymentRequest = PaymentRequest(transactionId: data.transactionId.value,
                                                amount: data.amount.value.explicitConvertionToDecimal()!,
                                                currency: Currencies.findCurrencyInfoByName(name: data.currency.value)!,
                                                customerEmail: data.customerEmail.value,
@@ -89,12 +89,14 @@ final class TransactionDetailsViewController: UIViewController {
         paymentRequest.usage = data.usage.value
         
         //Credentials for Genesis
-        let credentials = Credentials(withUsername: "YOUR_USERNAME", andPassword: "YOUR_PASSWORD")
+//        let credentials = Credentials(withUsername: "YOUR_USERNAME", andPassword: "YOUR_PASSWORD")
+        let credentials = Credentials(withUsername: "e304299924f8abb9c1caa926fb0e819c46e81f66", andPassword: "f55047e58b69a60d6839c97eb0290093ba605010")
 
+        
         //Configuration for Genesis
         let configuration = Configuration(credentials: credentials, language: .en, environment: .staging, endpoint: .emerchantpay)
         
-        //Init Genesis with Configuration and WPFPaymentRequest
+        //Init Genesis with Configuration and PaymentRequest
         let genesis = Genesis(withConfiguration: configuration, paymentRequest: paymentRequest, forDelegate: self)
         
         //show Genesis payment form
