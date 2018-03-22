@@ -89,9 +89,7 @@ final class TransactionDetailsViewController: UIViewController {
         paymentRequest.usage = data.usage.value
         
         //Credentials for Genesis
-//        let credentials = Credentials(withUsername: "YOUR_USERNAME", andPassword: "YOUR_PASSWORD")
-        let credentials = Credentials(withUsername: "e304299924f8abb9c1caa926fb0e819c46e81f66", andPassword: "f55047e58b69a60d6839c97eb0290093ba605010")
-
+        let credentials = Credentials(withUsername: "YOUR_USERNAME", andPassword: "YOUR_PASSWORD")
         
         //Configuration for Genesis
         let configuration = Configuration(credentials: credentials, language: .en, environment: .staging, endpoint: .emerchantpay)
