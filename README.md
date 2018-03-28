@@ -1,5 +1,6 @@
 # Genesis iOS Sample App
 >
+[![Build Status](https://img.shields.io/travis/GenesisGateway/ios_app.svg?style=flat)](https://travis-ci.org/GenesisGateway/ios_app)
 
 ## Requirements
 

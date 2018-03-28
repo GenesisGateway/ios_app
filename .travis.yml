@@ -1,0 +1,17 @@
+language: objective-c
+
+osx_image: xcode9.2
+
+git:
+  submodules: false
+
+script:
+    - git submodule init
+    - git submodule update --remote ios_sdk
+    - xcodebuild test -project iOSGenesisSample.xcodeproj -scheme iOSGenesisSample -destination 'platform=iOS Simulator,name=iPhone 6,OS=9.3' CODE_SIGNING_REQUIRED=NO
+    - xcodebuild test -project iOSGenesisSample.xcodeproj -scheme iOSGenesisSample -destination 'platform=iOS Simulator,name=iPhone 7,OS=10.3.1' CODE_SIGNING_REQUIRED=NO
+    - xcodebuild test -project iOSGenesisSample.xcodeproj -scheme iOSGenesisSample -destination 'platform=iOS Simulator,name=iPhone 6S,OS=11.2' CODE_SIGNING_REQUIRED=NO
+    - xcodebuild test -project iOSGenesisSample.xcodeproj -scheme iOSGenesisSample -destination 'platform=iOS Simulator,name=iPhone 6s Plus,OS=11.2' CODE_SIGNING_REQUIRED=NO
+    - xcodebuild test -project iOSGenesisSample.xcodeproj -scheme iOSGenesisSample -destination 'platform=iOS Simulator,name=iPhone 8,OS=11.2' CODE_SIGNING_REQUIRED=NO
+    - xcodebuild test -project iOSGenesisSample.xcodeproj -scheme iOSGenesisSample -destination 'platform=iOS Simulator,name=iPhone X,OS=11.2' CODE_SIGNING_REQUIRED=NO
+    - xcodebuild test -project iOSGenesisSample.xcodeproj -scheme iOSGenesisSample -destination 'platform=iOS Simulator,name=iPad (5th generation),OS=11.2' CODE_SIGNING_REQUIRED=NO
