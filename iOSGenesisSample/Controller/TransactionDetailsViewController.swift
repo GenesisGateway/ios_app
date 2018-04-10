@@ -13,7 +13,7 @@ protocol CellDidChangeDelegate: class {
 }
 
 final class TransactionDetailsViewController: UIViewController {
-    var transactionType: TransactionName?
+    var transactionName: TransactionName?
     
     @IBOutlet weak var bottomLayoutConstraint: NSLayoutConstraint!
     @IBOutlet weak var tableView: UITableView!
@@ -76,6 +76,9 @@ final class TransactionDetailsViewController: UIViewController {
                                                state: data.state.value,
                                                country: IsoCountryCodes.search(byName: data.country.value))
         
+        //PaymentTransactionType for Genesis
+        let paymentTransactionType = PaymentTransactionType(name: transactionName!)
+        
         //PaymentRequest for Genesis
         let paymentRequest = PaymentRequest(transactionId: data.transactionId.value,
                                                amount: data.amount.value.explicitConvertionToDecimal()!,
@@ -83,7 +86,7 @@ final class TransactionDetailsViewController: UIViewController {
                                                customerEmail: data.customerEmail.value,
                                                customerPhone: data.customerPhone.value,
                                                billingAddress: paymentAddress,
-                                               transactionTypes: [transactionType!],
+                                               transactionTypes: [paymentTransactionType],
                                                notificationUrl: data.notificationUrl.value)
         
         paymentRequest.usage = data.usage.value
@@ -168,7 +171,7 @@ extension TransactionDetailsViewController: UITableViewDelegate {
 }
 
 // MARK: - GenesisDelegate
-extension TransactionDetailsViewController: GenesisDelegate {
+extension TransactionDetailsViewController: GenesisDelegate {    
 
     func genesisDidFinishLoading() {
 
@@ -186,7 +189,8 @@ extension TransactionDetailsViewController: GenesisDelegate {
         presentAlertWithTitle("Canceled")
     }
     
-    func genesisValidationError(error: Error) {
+    func genesisValidationError(error: GenesisValidationError) {
+        print(error.errorUserInfo)
         presentAlertWithTitle("SKD Validation error", andMessage: error.localizedDescription)
     }
 }

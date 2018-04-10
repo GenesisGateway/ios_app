@@ -10,8 +10,6 @@ class HomeViewController: UIViewController {
     
     let transactionTypes: [TransactionName] = [.authorize, .sale, .sale3d, .paysafecard].sorted(by: { $0.rawValue < $1.rawValue })
     
-    //[.authorize, .authorize3d, .sale, .sale3d, .initRecurringSale, .initRecurringSale3d, .ezeewallet, .sofort, .cashu, .paysafecard, .ppro, .paybyvoucherYeepay, .paybyvoucherSale, .neteller, .poli, .p24, .citadelPayin, .idebitPayin, .instaDebitPayin, .paypalExpress, .abnIdeal, .webmoney, .inpay, .sddSale, .sddInitRecurringSale, .trustlySale, .trustlyWithdrawal, .wechat]
-    
     @IBOutlet weak var tableView: UITableView!
 
     override func viewDidLoad() {
@@ -51,14 +49,13 @@ class HomeViewController: UIViewController {
     
     private func openURLString(urlString: String) {
         UIApplication.shared.openURL(URL(string: urlString)!)
-
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "TransactionDetailsSegue" {
             let transactionDetails = segue.destination as! TransactionDetailsViewController
             let transaction = transactionTypes[(tableView.indexPathForSelectedRow?.row)!]
-            transactionDetails.transactionType = transaction
+            transactionDetails.transactionName = transaction
             transactionDetails.title = descriptionForTransactionName(transactionName: transaction)
         }
     }
