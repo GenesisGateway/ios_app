@@ -19,7 +19,7 @@ git clone https://github.com/GenesisGateway/ios_app
 ```
 carthage update
 ```
-3. Open iOSGenesisWebView.xcodeproj project file
+3. Open iOSGenesisSample.xcodeproj project file
 4. Drag and drop project/directory/Carthage/Build/iOS/GenesisSwift.framework into the project
 5. Run project
 
@@ -34,6 +34,6 @@ git clone https://github.com/GenesisGateway/ios_app
 git submodule init
 git submodule update --remote ios_sdk
 ```
-3. Open iOSGenesisWebView.xcodeproj project file
+3. Open iOSGenesisSample.xcodeproj project file
 4. Run project
 

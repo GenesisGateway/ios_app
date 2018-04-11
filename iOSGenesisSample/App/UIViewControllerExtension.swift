@@ -12,7 +12,9 @@ extension UIViewController {
             alert.dismiss(animated: true, completion: nil)
         }
         alert.addAction(okAction)
-        present(alert, animated: true, completion: nil)
+        DispatchQueue.main.async {
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     func hideKeyboardWhenTappedAround() {
