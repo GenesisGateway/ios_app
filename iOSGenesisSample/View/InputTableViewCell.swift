@@ -8,18 +8,18 @@ import GenesisSwift
 
 final class InputTableViewCell: UITableViewCell {
     
-    @IBOutlet weak var inputTitleLabel: UILabel!
-    @IBOutlet weak var inputTextField: UITextField!
-    
-    var delegate: CellDidChangeDelegate?
- 
-    var data: DataProtocol! {
+    @IBOutlet private weak var inputTitleLabel: UILabel!
+    @IBOutlet private weak var inputTextField: UITextField!
+
+    var data: GenesisSwift.DataProtocol! {
         didSet {
             inputTitleLabel.text = data.title
             inputTextField.text = data.value
         }
     }
+
     var indexPath: IndexPath!
+    var delegate: CellDidChangeDelegate?
 }
 
 // MARK: - UITextFieldDelegate
@@ -29,10 +29,8 @@ extension InputTableViewCell: UITextFieldDelegate {
         if let text = textField.text, let textRange = Range(range, in: text) {
             let updatedText = text.replacingCharacters(in: textRange,
                                                        with: string)
-        
             delegate?.cellTextFieldDidChange(value: updatedText, IndexPath: indexPath)
         }
-        
         return true
     }
     
@@ -40,10 +38,10 @@ extension InputTableViewCell: UITextFieldDelegate {
         if data is ValidatedInputData {
             let predicate = NSPredicate(format:"SELF MATCHES %@", data.regex)
             let evaluation = predicate.evaluate(with: inputTextField.text!)
-            if evaluation == false {
-                delegate?.cellTextFieldValidationError(indexPath, textField: inputTextField)
-            } else {
+            if evaluation {
                 delegate?.cellTextFieldValidationPassed(indexPath)
+            } else {
+                delegate?.cellTextFieldValidationError(indexPath, textField: inputTextField)
             }
         }
     }

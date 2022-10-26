@@ -6,11 +6,11 @@
 import UIKit
 import GenesisSwift
 
-class HomeViewController: UIViewController {
-    
-    let transactionTypes: [TransactionName] = [.authorize, .sale, .sale3d, .paysafecard].sorted(by: { $0.rawValue < $1.rawValue })
-    
+final class HomeViewController: UIViewController {
+
     @IBOutlet weak var tableView: UITableView!
+
+    private lazy var transactionTypes: [TransactionName] = [.authorize, .sale, .sale3d, .paysafecard].sorted(by: { $0.rawValue < $1.rawValue })
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,12 +29,11 @@ class HomeViewController: UIViewController {
     }
     
     private func descriptionForTransactionName(transactionName: TransactionName) -> String {
-        switch transactionName.rawValue {
-        case TransactionName.sale.rawValue: return "Sale"
-        case TransactionName.sale3d.rawValue: return "Sale3D"
-        case TransactionName.authorize.rawValue: return "Authorize"
-        case TransactionName.paysafecard.rawValue: return "Paysafecard"
-            
+        switch transactionName {
+        case .sale: return "Sale"
+        case .sale3d: return "Sale3D"
+        case .authorize: return "Authorize"
+        case .paysafecard: return "Paysafecard"
         default: return transactionName.rawValue
         }
     }
@@ -48,16 +47,20 @@ class HomeViewController: UIViewController {
     }
     
     private func openURLString(urlString: String) {
-        UIApplication.shared.openURL(URL(string: urlString)!)
+        if let url = URL(string: urlString), UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.openURL(url)
+        } else {
+            assertionFailure("Cannot open URL: \(urlString)")
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "TransactionDetailsSegue" {
-            let transactionDetails = segue.destination as! TransactionDetailsViewController
-            let transaction = transactionTypes[(tableView.indexPathForSelectedRow?.row)!]
-            transactionDetails.transactionName = transaction
-            transactionDetails.title = descriptionForTransactionName(transactionName: transaction)
-        }
+        guard segue.identifier == "TransactionDetailsSegue" else { return }
+        guard let transactionDetails = segue.destination as? TransactionDetailsViewController else { return }
+        guard let row = tableView.indexPathForSelectedRow?.row else { return }
+        let transaction = transactionTypes[row]
+        transactionDetails.transactionName = transaction
+        transactionDetails.title = descriptionForTransactionName(transactionName: transaction)
     }
 }
 
@@ -70,11 +73,8 @@ extension HomeViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TransactionTypeCell", for: indexPath)
-        
         let transaction = transactionTypes[indexPath.row]
-
         cell.textLabel?.text = descriptionForTransactionName(transactionName: transaction)
-        
         return cell
     }
 }
