@@ -13,25 +13,40 @@ public protocol PickerDataItem {
 
 extension IsoCountryInfo: PickerDataItem {
     public var pickerTitle: String {
-        return "\(self.name) - \(self.alpha2)"
+        return "\(name) - \(alpha2)"
     }
     
     public var pickerValue: String {
-        return self.name
+        return name
     }
 }
 
 extension CurrencyInfo: PickerDataItem {
     public var pickerTitle: String {
-        return self.name.rawValue
+        return name.rawValue
     }
     
     public var pickerValue: String {
-        return self.name.rawValue
+        return name.rawValue
     }
 }
 
-public class PickerData: DataProtocol {
+struct EnumPickerItem: PickerDataItem {
+    var pickerTitle: String
+    var pickerValue: String
+
+    init(_ item: String) {
+        pickerTitle = item
+        pickerValue = item
+    }
+
+    init(title: String, value: String) {
+        pickerTitle = title
+        pickerValue = value
+    }
+}
+
+public class PickerData: ObjectDataProtocol {
     public var title: String
     public var value: String
     public var items: [PickerDataItem]

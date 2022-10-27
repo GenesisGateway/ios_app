@@ -34,7 +34,7 @@ class HomeViewControllerTests: XCTestCase {
     // Mark: - Helper Methods
     
     func segues(ofViewController viewController: UIViewController) -> [String] {
-        let identifiers = (viewController.value(forKey: "storyboardSegueTemplates") as? [AnyObject])?.flatMap({ $0.value(forKey: "identifier") as? String }) ?? []
-        return identifiers
+        (viewController.value(forKey: "storyboardSegueTemplates") as? [AnyObject])?
+            .compactMap({ $0.value(forKey: "identifier") as? String }) ?? []
     }
 }

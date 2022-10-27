@@ -25,6 +25,7 @@
 		2E3646A420454D6900F7FE9D /* GenesisSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2E364699204456E900F7FE9D /* GenesisSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2E707B7D20468E4500DE8147 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E707B7C20468E4500DE8147 /* HomeViewController.swift */; };
 		2E707B832046A50200DE8147 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E707B822046A50200DE8147 /* UIViewControllerExtension.swift */; };
+		56B29961290286C8000DBC71 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B29960290286C8000DBC71 /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,6 +103,7 @@
 		2E364693204456E900F7FE9D /* GenesisSwift.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GenesisSwift.xcodeproj; path = ios_sdk/GenesisSwift.xcodeproj; sourceTree = "<group>"; };
 		2E707B7C20468E4500DE8147 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		2E707B822046A50200DE8147 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
+		56B29960290286C8000DBC71 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -197,8 +199,8 @@
 		2E707B7820468AE000DE8147 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				2D570D471F3CB452001DE81E /* TransactionDetailsViewController.swift */,
 				2E707B7C20468E4500DE8147 /* HomeViewController.swift */,
+				2D570D471F3CB452001DE81E /* TransactionDetailsViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -216,9 +218,10 @@
 		2E707B7B20468B3700DE8147 /* App */ = {
 			isa = PBXGroup;
 			children = (
-				2D570D451F3CB452001DE81E /* AppDelegate.swift */,
 				2D570D4C1F3CB452001DE81E /* Assets.xcassets */,
 				2D570D511F3CB452001DE81E /* Info.plist */,
+				2D570D451F3CB452001DE81E /* AppDelegate.swift */,
+				56B29960290286C8000DBC71 /* Extensions.swift */,
 				2D570D4E1F3CB452001DE81E /* LaunchScreen.storyboard */,
 				2E707B822046A50200DE8147 /* UIViewControllerExtension.swift */,
 			);
@@ -300,6 +303,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -378,6 +382,7 @@
 				2E707B832046A50200DE8147 /* UIViewControllerExtension.swift in Sources */,
 				2D570D461F3CB452001DE81E /* AppDelegate.swift in Sources */,
 				2D13FAA51FB3A1F300E0E529 /* ValidatedInputData.swift in Sources */,
+				56B29961290286C8000DBC71 /* Extensions.swift in Sources */,
 				2D32D9FD1F8ACC5800A43FE0 /* InputTableViewCell.swift in Sources */,
 				2E707B7D20468E4500DE8147 /* HomeViewController.swift in Sources */,
 				2D13FAA41FB3A1F300E0E529 /* PickerData.swift in Sources */,
@@ -450,7 +455,7 @@
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iOSGenesisSample.app/iOSGenesisSample";
-				VALID_ARCHS = "arm64 armv7 armv7s";
+				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
 			};
 			name = Debug;
 		};
@@ -479,13 +484,14 @@
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iOSGenesisSample.app/iOSGenesisSample";
-				VALID_ARCHS = "arm64 armv7 armv7s";
+				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
 			};
 			name = Release;
 		};
 		2D570D521F3CB452001DE81E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -538,6 +544,7 @@
 		2D570D531F3CB452001DE81E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -597,6 +604,7 @@
 				);
 				INFOPLIST_FILE = iOSGenesisSample/App/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.emerchantpay.inapppayments;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -623,6 +631,7 @@
 				);
 				INFOPLIST_FILE = iOSGenesisSample/App/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.emerchantpay.inapppayments;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

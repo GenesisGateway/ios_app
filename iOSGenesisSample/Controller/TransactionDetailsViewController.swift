@@ -6,32 +6,41 @@
 import UIKit
 import GenesisSwift
 
-protocol CellDidChangeDelegate: class {
+protocol CellDidChangeDelegate: AnyObject {
     func cellTextFieldDidChange(value: Any, IndexPath: IndexPath)
     func cellTextFieldValidationError(_ indexPath: IndexPath, textField: UITextField)
     func cellTextFieldValidationPassed(_ indexPath: IndexPath)
 }
 
 final class TransactionDetailsViewController: UIViewController {
-    var transactionName: TransactionName?
+
+    var transactionName: TransactionName? {
+        didSet {
+            if let name = transactionName {
+                inputData = InputData(transactionName: name)
+            } else {
+                assertionFailure("TransactionName must be set")
+            }
+        }
+    }
     
     @IBOutlet weak var bottomLayoutConstraint: NSLayoutConstraint!
     @IBOutlet weak var tableView: UITableView!
     
-    var data = InputData()
+    private var inputData: InputData!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShowNotification), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHideNotification), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShowNotification), name: .UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHideNotification), name: .UIKeyboardWillHide, object: nil)
     
         hideKeyboardWhenTappedAround()
     }
     
     deinit {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillHide, object: nil)
     }
     
     @objc func keyboardWillShowNotification(notification: NSNotification) {
@@ -43,9 +52,7 @@ final class TransactionDetailsViewController: UIViewController {
     }
     
     func updateBottomLayoutConstraintWithNotification(notification: NSNotification) {
-        guard self.isViewVisible() else {
-            return
-        }
+        guard isViewVisible() else { return }
         
         let userInfo = notification.userInfo!
         
@@ -59,38 +66,14 @@ final class TransactionDetailsViewController: UIViewController {
         UIView.animate(withDuration: animationDuration,
                        delay: 0.0,
                        options: [.beginFromCurrentState, animationCurve],
-                       animations: {
-                        self.view.layoutIfNeeded()
-        },
-                       completion: nil)
+                       animations: { self.view.layoutIfNeeded() }
+        )
     }
     
     func showPayForm() {
-        //PaymentAddress for Genesis
-        let paymentAddress = PaymentAddress(firstName: data.firstName.value,
-                                               lastName: data.lastName.value,
-                                               address1: data.address1.value,
-                                               address2: data.address2.value,
-                                               zipCode: data.zipCode.value,
-                                               city: data.city.value,
-                                               state: data.state.value,
-                                               country: IsoCountryCodes.search(byName: data.country.value))
-        
-        //PaymentTransactionType for Genesis
-        let paymentTransactionType = PaymentTransactionType(name: transactionName!)
-        
-        //PaymentRequest for Genesis
-        let paymentRequest = PaymentRequest(transactionId: data.transactionId.value,
-                                               amount: data.amount.value.explicitConvertionToDecimal()!,
-                                               currency: Currencies.findCurrencyInfoByName(name: data.currency.value)!,
-                                               customerEmail: data.customerEmail.value,
-                                               customerPhone: data.customerPhone.value,
-                                               billingAddress: paymentAddress,
-                                               transactionTypes: [paymentTransactionType],
-                                               notificationUrl: data.notificationUrl.value)
-        
-        paymentRequest.usage = data.usage.value
-        
+
+        let paymentRequest = inputData.createPaymentRequest()
+
         //Credentials for Genesis
         let credentials = Credentials(withUsername: "YOUR_USERNAME", andPassword: "YOUR_PASSWORD")
         
@@ -119,38 +102,29 @@ final class TransactionDetailsViewController: UIViewController {
 extension TransactionDetailsViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.allObjects.count + 1
+        return data.count + 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if (indexPath.row == data.allObjects.count) {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "PayTableViewCell", for: indexPath)
-            return cell
+        if indexPath.row == data.count {
+            return tableView.dequeueReusableCell(withIdentifier: "PayTableViewCell", for: indexPath)
         } else {
-            
-            let rowData = data.allObjects[indexPath.row]
-            
-            if rowData is InputDataObject || rowData is ValidatedInputData {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "InputTableViewCell", for: indexPath) as! InputTableViewCell
-                
-                cell.data = rowData as! DataProtocol
-                cell.indexPath = indexPath
-                cell.delegate = self
-                
-                return cell
-            }
-            
-            if rowData is PickerData {
+            let rowData = data[indexPath.row]
+
+            if let data = rowData as? PickerData {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "PickerTableViewCell", for: indexPath) as! PickerTableViewCell
-                
-                cell.data = rowData as! PickerData
+                cell.data = data
+                cell.indexPath = indexPath
+                cell.delegate = self
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "InputTableViewCell", for: indexPath) as! InputTableViewCell
+                cell.data = rowData
                 cell.indexPath = indexPath
                 cell.delegate = self
                 
                 return cell
             }
-            
-            return UITableViewCell()
         }
     }
 }
@@ -159,12 +133,12 @@ extension TransactionDetailsViewController: UITableViewDataSource {
 extension TransactionDetailsViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if (indexPath.row == data.allObjects.count) {
-            guard (data.amount.value.explicitConvertionToDecimal() != nil) else {
+        if indexPath.row == data.count {
+            guard inputData.amount.value.explicitConvertionToDecimal() != nil else {
                 presentAlertWithTitle("Amount error")
                 return
             }
-            
+
             showPayForm()
         }
     }
@@ -174,7 +148,7 @@ extension TransactionDetailsViewController: UITableViewDelegate {
 extension TransactionDetailsViewController: GenesisDelegate {    
 
     func genesisDidFinishLoading() {
-
+        // empty
     }
 
     func genesisDidEndWithSuccess() {
@@ -182,7 +156,8 @@ extension TransactionDetailsViewController: GenesisDelegate {
     }
 
     func genesisDidEndWithFailure(errorCode: GenesisError) {
-        presentAlertWithTitle("Failure", andMessage: "code: \(errorCode.code ?? "unknown")\n technical: \(errorCode.technicalMessage ?? "unknown")\n message: \(errorCode.message ?? "unknown")")
+        let message = "code: \(errorCode.code ?? "unknown")\n technical: \(errorCode.technicalMessage ?? "unknown")\n message: \(errorCode.message ?? "unknown")"
+        presentAlertWithTitle("Failure", andMessage: message)
     }
 
     func genesisDidEndWithCancel() {
@@ -191,7 +166,7 @@ extension TransactionDetailsViewController: GenesisDelegate {
     
     func genesisValidationError(error: GenesisValidationError) {
         print(error.errorUserInfo)
-        presentAlertWithTitle("SKD Validation error", andMessage: error.localizedDescription)
+        presentAlertWithTitle("SDK Validation error", andMessage: error.localizedDescription)
     }
 }
 
@@ -199,18 +174,25 @@ extension TransactionDetailsViewController: GenesisDelegate {
 extension TransactionDetailsViewController: CellDidChangeDelegate {
     
     func cellTextFieldDidChange(value: Any, IndexPath: IndexPath) {
-        var dataObject = data.allObjects[IndexPath.row] as! DataProtocol
+        var dataObject = data[IndexPath.row]
         dataObject.value = value as! String
 
-        data.save()
+        inputData.save()
     }
     
     func cellTextFieldValidationError(_ indexPath: IndexPath, textField: UITextField) {
         textField.becomeFirstResponder()
-        presentAlertWithTitle("Validation error", andMessage: "for: \((data.allObjects[indexPath.row] as! DataProtocol).title)")
+        presentAlertWithTitle("Validation error", andMessage: "for: \(data[indexPath.row].title)")
     }
     
     func cellTextFieldValidationPassed(_ indexPath: IndexPath) {
-        
+        // empty
+    }
+}
+
+private extension TransactionDetailsViewController {
+
+    var data: [GenesisSwift.DataProtocol] {
+        inputData.objects
     }
 }
