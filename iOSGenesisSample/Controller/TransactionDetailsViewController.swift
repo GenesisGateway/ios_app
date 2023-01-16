@@ -7,7 +7,7 @@ import UIKit
 import GenesisSwift
 
 protocol CellDidChangeDelegate: AnyObject {
-    func cellTextFieldDidChange(value: Any, IndexPath: IndexPath)
+    func cellTextFieldDidChange(value: Any, indexPath: IndexPath)
     func cellTextFieldValidationError(_ indexPath: IndexPath, textField: UITextField)
     func cellTextFieldValidationPassed(_ indexPath: IndexPath)
 }
@@ -24,8 +24,8 @@ final class TransactionDetailsViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak var bottomLayoutConstraint: NSLayoutConstraint!
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet private weak var bottomLayoutConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var tableView: UITableView!
     
     private var inputData: InputData!
 
@@ -42,7 +42,14 @@ final class TransactionDetailsViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillShow, object: nil)
         NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillHide, object: nil)
     }
-    
+}
+
+private extension TransactionDetailsViewController {
+
+    var data: [GenesisSwift.DataProtocol] {
+        inputData.objects
+    }
+
     @objc func keyboardWillShowNotification(notification: NSNotification) {
         updateBottomLayoutConstraintWithNotification(notification: notification)
     }
@@ -76,7 +83,7 @@ final class TransactionDetailsViewController: UIViewController {
 
         //Credentials for Genesis
         let credentials = Credentials(withUsername: "YOUR_USERNAME", andPassword: "YOUR_PASSWORD")
-        
+
         //Configuration for Genesis
         let configuration = Configuration(credentials: credentials, language: .en, environment: .staging, endpoint: .emerchantpay)
         
@@ -102,7 +109,7 @@ final class TransactionDetailsViewController: UIViewController {
 extension TransactionDetailsViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.count + 1
+        data.count + 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -145,8 +152,7 @@ extension TransactionDetailsViewController: UITableViewDelegate {
 }
 
 // MARK: - GenesisDelegate
-extension TransactionDetailsViewController: GenesisDelegate {    
-
+extension TransactionDetailsViewController: GenesisDelegate {
     func genesisDidFinishLoading() {
         // empty
     }
@@ -173,11 +179,19 @@ extension TransactionDetailsViewController: GenesisDelegate {
 // MARK: - CellDidChangeDelegate
 extension TransactionDetailsViewController: CellDidChangeDelegate {
     
-    func cellTextFieldDidChange(value: Any, IndexPath: IndexPath) {
-        var dataObject = data[IndexPath.row]
+    func cellTextFieldDidChange(value: Any, indexPath: IndexPath) {
+        var dataObject = data[indexPath.row]
         dataObject.value = value as! String
 
         inputData.save()
+
+        switch InputData.Titles(rawValue: dataObject.title) {
+        case .recurringMode:
+            // user must fill in different values depending on the managed recurring mode
+            tableView.reloadData()
+        default:
+            break
+        }
     }
     
     func cellTextFieldValidationError(_ indexPath: IndexPath, textField: UITextField) {
@@ -187,12 +201,5 @@ extension TransactionDetailsViewController: CellDidChangeDelegate {
     
     func cellTextFieldValidationPassed(_ indexPath: IndexPath) {
         // empty
-    }
-}
-
-private extension TransactionDetailsViewController {
-
-    var data: [GenesisSwift.DataProtocol] {
-        inputData.objects
     }
 }

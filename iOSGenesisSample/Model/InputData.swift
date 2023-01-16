@@ -18,7 +18,7 @@ public class InputDataObject: ObjectDataProtocol {
     }
 }
 
-public class InputData: NSObject {
+public final class InputData: NSObject {
 
     private let transactionName: TransactionName
 
@@ -37,6 +37,54 @@ public class InputData: NSObject {
     private(set) lazy var state =  InputDataObject(title: Titles.state.rawValue, value: "NY")
     private(set) lazy var country = PickerData(title: Titles.country.rawValue, value: "United States", items: IsoCountries.allCountries)
     private(set) lazy var notificationUrl = InputDataObject(title: Titles.notificationUrl.rawValue, value: "https://example.com/notification")
+
+    // managed recurring
+    private(set) lazy var managedRecurringMode = PickerData(title: Titles.recurringMode.rawValue,
+                                                            value: ManagedRecurringMode.notAvailable.rawValue,
+                                                            items: ManagedRecurringMode.allCases
+                                                                .map { EnumPickerItem($0.rawValue) })
+    private(set) lazy var recurringMaxCount = ValidatedInputData(title: Titles.recurringMaxCount.rawValue,
+                                                                 value: "10",
+                                                                 regex: Regex.integer)
+    // automatic managed recurring
+    private(set) lazy var recurringPeriod = ValidatedInputData(title: Titles.autoRecurringPeriod.rawValue,
+                                                               value: "22",
+                                                               regex: Regex.integer)
+    private(set) lazy var recurringInterval = PickerData(title: Titles.autoRecurringInterval.rawValue,
+                                                         value: ManagedRecurringParams.Automatic.IntervalValues.days.rawValue,
+                                                         items: ManagedRecurringParams.Automatic.IntervalValues.allCases
+                                                             .map { EnumPickerItem($0.rawValue) })
+    private(set) lazy var recurringFirstDate = ValidatedInputData(title: Titles.autoRecurringFirstDate.rawValue,
+                                                                  value: Date().dateByAdding(6, to: .month)!.iso8601Date,
+                                                                  regex: Regex.date)
+    private(set) lazy var recurringTimeOfDay = ValidatedInputData(title: Titles.autoRecurringTimeOfDay.rawValue,
+                                                                  value: "5",
+                                                                  regex: Regex.integer)
+    private(set) lazy var recurringAmount = ValidatedInputData(title: Titles.autoRecurringAmount.rawValue,
+                                                               value: "500",
+                                                               regex: Regex.integer)
+    // manual managed recurring
+    private(set) lazy var recurringPaymentType = PickerData(title: Titles.manualRecurringPaymentType.rawValue,
+                                                            value: ManagedRecurringParams.Manual.PaymentTypeValues.subsequent.rawValue,
+                                                            items: ManagedRecurringParams.Manual.PaymentTypeValues.allCases
+                                                                .map { EnumPickerItem($0.rawValue) })
+    private(set) lazy var recurringAmountType = PickerData(title: Titles.manualRecurringAmountType.rawValue,
+                                                           value: ManagedRecurringParams.Manual.AmountTypeValues.fixed.rawValue,
+                                                           items: ManagedRecurringParams.Manual.AmountTypeValues.allCases
+                                                               .map { EnumPickerItem($0.rawValue) })
+    private(set) lazy var recurringFrequency = PickerData(title: Titles.manualRecurringFrequency.rawValue,
+                                                          value: ManagedRecurringParams.Manual.FrequencyValues.weekly.rawValue,
+                                                          items: ManagedRecurringParams.Manual.FrequencyValues.allCases
+                                                              .map { EnumPickerItem($0.rawValue) })
+    private(set) lazy var recurringRegistrationReferenceNumber =
+        InputDataObject(title: Titles.manualRecurringRegistrationReferenceNumber.rawValue, value: "123434")
+    private(set) lazy var recurringMaxAmount = ValidatedInputData(title: Titles.manualRecurringMaxAmount.rawValue,
+                                                                  value: "200",
+                                                                  regex: Regex.integer)
+    private(set) lazy var recurringValidated = PickerData(title: Titles.manualRecurringValidated.rawValue,
+                                                          value: BooleanChoice.yes.rawValue,
+                                                          items: BooleanChoice.allCases
+                                                                   .map { EnumPickerItem($0.rawValue) })
 
     // 3DSv2 parameters
 
@@ -89,7 +137,7 @@ public class InputData: NSObject {
                                                             value: Date().iso8601Date,
                                                             regex: Regex.date)
     private(set) lazy var giftCard = PickerData(title: Titles.giftCard.rawValue,
-                                                value: BooleanChoice.yes.rawValue.capitalized,
+                                                value: BooleanChoice.yes.rawValue,
                                                 items: BooleanChoice.allCases
                                                          .map { EnumPickerItem($0.rawValue) })
     private(set) lazy var giftCardCount = ValidatedInputData(title: Titles.giftCardCount.rawValue,
@@ -150,12 +198,33 @@ public class InputData: NSObject {
                                                                 value: Date().dateBySubstracting(2, from: .year)!.iso8601Date,
                                                                 regex: Regex.date)
 
-    private lazy var defaultObjects: [ObjectDataProtocol] = {
-        [transactionId, amount, currency, usage, customerEmail, customerPhone,
-         firstName, lastName, address1, address2, zipCode, city, state, country, notificationUrl]
-    }()
+    private var defaultObjects: [ObjectDataProtocol] {
+        var all: [ObjectDataProtocol] = [transactionId, amount, currency, usage, customerEmail, customerPhone,
+                                         firstName, lastName, address1, address2, zipCode, city, state, country, notificationUrl]
+        if supportsManagedRecurring {
+            all.append(managedRecurringMode)
+            switch ManagedRecurringMode(rawValue: managedRecurringMode.value) {
+            case .automatic:
+                all.append(contentsOf: automaticManagedOcurringObjects)
+            case .manual:
+                all.append(contentsOf: manualManagedOcurringObjects)
+            default:
+                break
+            }
+        }
+        return all
+    }
 
-    private lazy var allObjects: [ObjectDataProtocol] = {
+    private var automaticManagedOcurringObjects: [ObjectDataProtocol] {
+        [recurringInterval, recurringFirstDate, recurringTimeOfDay, recurringPeriod, recurringAmount, recurringMaxCount]
+    }
+
+    private var manualManagedOcurringObjects: [ObjectDataProtocol] {
+        [recurringPaymentType, recurringAmountType, recurringFrequency, recurringRegistrationReferenceNumber,
+         recurringMaxAmount, recurringMaxCount, recurringValidated]
+    }
+
+    private var allObjects: [ObjectDataProtocol] {
         var all = [ObjectDataProtocol]()
         all.append(contentsOf: defaultObjects)
         let threeDSParams: [ObjectDataProtocol] = [challengeIndicator, challengeWindowSize,
@@ -167,7 +236,16 @@ public class InputData: NSObject {
             purchasesCountLast6Months, suspiciousActivityIndicator, registrationIndicator, registrationDate]
         all.append(contentsOf: threeDSParams)
         return all
-    }()
+    }
+
+    var supportsManagedRecurring: Bool {
+        switch transactionName {
+        case .initRecurringSale, .initRecurringSale3d:
+            return true
+        default:
+            return false
+        }
+    }
 
     var requires3DS: Bool {
         switch transactionName {
@@ -192,33 +270,9 @@ public class InputData: NSObject {
         let data = convertInputDataToArray(inputArray: allObjects)
         UserDefaults.standard.set(data, forKey: StorageKeys.commonData)
     }
-
-    
 }
 
-private extension InputData {
-
-    enum StorageTypes: String {
-        case dataObject = "InputDataObject"
-        case pickerData = "PickerData"
-        case validatedData = "ValidatedInputData"
-    }
-    enum StorageKeys {
-        static let commonData = "UserDefaultsDataKey"
-    }
-
-    enum Regex {
-        static let amount = "^?\\d*(\\.\\d{0,3})?$"
-        static let email = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-        static let date = "^(0[1-9]|[12][0-9]|3[01])\\-(0[1-9]|1[012])\\-\\d{4}$"
-        static let integer = "^\\d+$"
-        static let boolean = "^(yes|no)$"
-    }
-
-    enum BooleanChoice: String, CaseIterable {
-        case yes
-        case no
-    }
+extension InputData {
 
     enum Titles: String {
         case transactionId = "Transaction Id"
@@ -236,6 +290,23 @@ private extension InputData {
         case state = "State"
         case country = "Country"
         case notificationUrl = "Notification URL"
+
+        // Managed Recurring
+        case recurringMode = "Managed Recurring Mode"
+        case recurringMaxCount = "Recurring Max Count"
+
+        case autoRecurringPeriod = "Recurring Period"
+        case autoRecurringInterval = "Recurring Interval"
+        case autoRecurringFirstDate = "Recurring First Date"
+        case autoRecurringTimeOfDay = "Recurring Time of Day"
+        case autoRecurringAmount = "Recurring Amount"
+
+        case manualRecurringPaymentType = "Recurring Payment Type"
+        case manualRecurringAmountType = "Recurring Amount Type"
+        case manualRecurringFrequency = "Recurring Frequency"
+        case manualRecurringRegistrationReferenceNumber = "Recurring Registration Reference Number"
+        case manualRecurringMaxAmount = "Recurring Max Amount"
+        case manualRecurringValidated = "Recurring Validated"
 
         // 3DSv2 parameters
         case challengeIndicator = "Challenge Indicator"
@@ -265,7 +336,40 @@ private extension InputData {
         case registrationIndicator = "Registration Indicator"
         case registrationDate = "Registration Date"
     }
+
+    enum ManagedRecurringMode: String, CaseIterable {
+        case notAvailable = "N/A"
+        case automatic
+        case manual
+    }
 }
+
+private extension InputData {
+
+    enum StorageTypes: String {
+        case dataObject = "InputDataObject"
+        case pickerData = "PickerData"
+        case validatedData = "ValidatedInputData"
+    }
+    enum StorageKeys {
+        static let commonData = "UserDefaultsDataKey"
+    }
+
+    enum Regex {
+        static let amount = "^?\\d*(\\.\\d{0,3})?$"
+        static let email = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        static let date = "^(0[1-9]|[12][0-9]|3[01])\\-(0[1-9]|1[012])\\-\\d{4}$"
+        static let integer = "^\\d+$"
+        static let boolean = "^(yes|no)$"
+    }
+
+    enum BooleanChoice: String, CaseIterable {
+        case yes
+        case no
+    }
+}
+
+// MARK: - PaymentRequest creation
 
 extension InputData {
 
@@ -278,6 +382,38 @@ extension InputData {
                        city: city.value,
                        state: state.value,
                        country: IsoCountryCodes.search(byName: country.value))
+    }
+
+    var managedRecurringParams: ManagedRecurringParams? {
+        guard supportsManagedRecurring else { return nil }
+        switch ManagedRecurringMode(rawValue: managedRecurringMode.value) {
+        case .automatic:
+            let period = Int(recurringPeriod.value)!
+            let interval = ManagedRecurringParams.Automatic.IntervalValues(rawValue: recurringInterval.value)!
+            let firstDate = recurringFirstDate.value.dateFromISO8601Date
+            let timeOfDay = Int(recurringTimeOfDay.value)!
+            let amount = Int(recurringAmount.value)
+            let maxCount = Int(recurringMaxCount.value)
+            let automaticManagedRecurrring =
+                ManagedRecurringParams.Automatic(period: period, interval: interval, firstDate: firstDate,
+                                                 timeOfDay: timeOfDay, amount: amount, maxCount: maxCount)
+            return ManagedRecurringParams(mode: .automatic(automaticManagedRecurrring))
+        case .manual:
+            let paymentType = ManagedRecurringParams.Manual.PaymentTypeValues(rawValue: recurringPaymentType.value)!
+            let amountType = ManagedRecurringParams.Manual.AmountTypeValues(rawValue: recurringAmountType.value)!
+            let frequency = ManagedRecurringParams.Manual.FrequencyValues(rawValue: recurringFrequency.value)!
+            let refNumber = recurringRegistrationReferenceNumber.value
+            let maxAmount = Int(recurringMaxAmount.value)!
+            let maxCount = Int(recurringMaxCount.value)!
+            let validated = recurringValidated.value.lowercased() == BooleanChoice.yes.rawValue
+            let manualManagedRecurrring =
+                ManagedRecurringParams.Manual(paymentType: paymentType, amountType: amountType, frequency: frequency,
+                                              registrationReferenceNumber: refNumber, maxAmount: maxAmount,
+                                              maxCount: maxCount, validated: validated)
+            return ManagedRecurringParams(mode: .manual(manualManagedRecurrring))
+        default:
+            return nil
+        }
     }
 
     var threeDSParams: ThreeDSV2Params {
@@ -327,6 +463,8 @@ extension InputData {
     func createPaymentRequest() -> PaymentRequest {
 
         let paymentTransactionType = PaymentTransactionType(name: transactionName)
+        paymentTransactionType.managedRecurring = managedRecurringParams
+
         let paymentRequest = PaymentRequest(transactionId: transactionId.value,
                                                amount: amount.value.explicitConvertionToDecimal()!,
                                                currency: Currencies.findCurrencyInfoByName(name: currency.value)!,
@@ -348,12 +486,12 @@ extension InputData {
 extension InputData {
 
     func loadInputData() {
-        guard let loaded = UserDefaults.standard.array(forKey: StorageKeys.commonData) as? [Dictionary<String, String>] else {
+        guard let storedData = UserDefaults.standard.array(forKey: StorageKeys.commonData) as? [[String: String]] else {
             save()
             return
         }
 
-        let loadedInputDataSource = convertArrayToInputData(inputArray: loaded)
+        let loadedInputDataSource = inputData(from: storedData)
         for inputData in loadedInputDataSource {
             guard let titles = Titles(rawValue: inputData.title) else {
                 assertionFailure("Unknown title: \(inputData.title)")
@@ -375,6 +513,21 @@ extension InputData {
             case .state: state = inputData as! InputDataObject
             case .country: country = inputData as! PickerData
             case .notificationUrl: notificationUrl = inputData as! InputDataObject
+
+            // managed recurring parameters
+            case .recurringMode: managedRecurringMode = inputData as! PickerData
+            case .recurringMaxCount: recurringMaxCount = inputData as! ValidatedInputData
+            case .autoRecurringPeriod: recurringPeriod = inputData as! ValidatedInputData
+            case .autoRecurringInterval: recurringInterval = inputData as! PickerData
+            case .autoRecurringFirstDate: recurringFirstDate = inputData as! ValidatedInputData
+            case .autoRecurringTimeOfDay: recurringTimeOfDay = inputData as! ValidatedInputData
+            case .autoRecurringAmount: recurringAmount = inputData as! ValidatedInputData
+            case .manualRecurringPaymentType: recurringPaymentType = inputData as! PickerData
+            case .manualRecurringAmountType: recurringAmountType = inputData as! PickerData
+            case .manualRecurringFrequency: recurringFrequency = inputData as! PickerData
+            case .manualRecurringRegistrationReferenceNumber: recurringRegistrationReferenceNumber = inputData as! InputDataObject
+            case .manualRecurringMaxAmount: recurringMaxAmount = inputData as! ValidatedInputData
+            case .manualRecurringValidated: recurringValidated = inputData as! PickerData
 
             // 3DSv2 parameters
             case .challengeIndicator: challengeIndicator = inputData as! PickerData
@@ -411,10 +564,10 @@ extension InputData {
         }
     }
 
-    func convertInputDataToArray(inputArray: [GenesisSwift.DataProtocol]) -> [Dictionary<String, String>] {
-        var array = [Dictionary<String, String>]()
+    func convertInputDataToArray(inputArray: [GenesisSwift.DataProtocol]) -> [[String: String]] {
+        var array = [[String: String]]()
         for data in inputArray {
-            var dictionary = Dictionary<String, String>()
+            var dictionary = [String: String]()
             dictionary["title"] = data.title
             dictionary["value"] = data.value
             dictionary["regex"] = data.regex
@@ -424,7 +577,7 @@ extension InputData {
         return array
     }
     
-    func convertArrayToInputData(inputArray: [Dictionary<String, String>]) -> [GenesisSwift.DataProtocol] {
+    func inputData(from inputArray: [[String: String]]) -> [GenesisSwift.DataProtocol] {
         var array = [GenesisSwift.DataProtocol]()
         for dictionary in inputArray {
             if let title = dictionary["title"],
@@ -447,6 +600,28 @@ extension InputData {
                         array.append(PickerData(title: title, value: value, items: Currencies().allCurrencies))
                     case .country:
                         array.append(PickerData(title: title, value: value, items: IsoCountries.allCountries))
+
+                    // managed recurring
+                    case .recurringMode:
+                        array.append(PickerData(title: title, value: value,
+                                                items: ManagedRecurringMode.allCases.map { EnumPickerItem($0.rawValue) }))
+                    case .autoRecurringInterval:
+                        array.append(PickerData(title: title, value: value,
+                                                items: ManagedRecurringParams.Automatic.IntervalValues.allCases.map { EnumPickerItem($0.rawValue) }))
+                    case .manualRecurringPaymentType:
+                        array.append(PickerData(title: title, value: value,
+                                                items: ManagedRecurringParams.Manual.PaymentTypeValues.allCases.map { EnumPickerItem($0.rawValue) }))
+                    case .manualRecurringAmountType:
+                        array.append(PickerData(title: title, value: value,
+                                                items: ManagedRecurringParams.Manual.AmountTypeValues.allCases.map { EnumPickerItem($0.rawValue) }))
+                    case .manualRecurringFrequency:
+                        array.append(PickerData(title: title, value: value,
+                                                items: ManagedRecurringParams.Manual.FrequencyValues.allCases.map { EnumPickerItem($0.rawValue) }))
+                    case .manualRecurringValidated:
+                        array.append(PickerData(title: title, value: value,
+                                                items: BooleanChoice.allCases.map { EnumPickerItem($0.rawValue) }))
+
+                    // 3DS
                     case .challengeIndicator:
                         array.append(PickerData(title: title, value: value,
                                                 items: ThreeDSV2Params.ControlParams.ChallengeIndicatorValues.allCases

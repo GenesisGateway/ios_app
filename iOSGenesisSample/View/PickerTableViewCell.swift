@@ -65,6 +65,6 @@ extension PickerTableViewCell: UIPickerViewDelegate {
         let item = data.items[row]
         inputTextField.text = item.pickerValue
 
-        delegate?.cellTextFieldDidChange(value: item.pickerValue, IndexPath: indexPath)
+        delegate?.cellTextFieldDidChange(value: item.pickerValue, indexPath: indexPath)
     }
 }

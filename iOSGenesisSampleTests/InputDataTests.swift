@@ -31,7 +31,7 @@ extension InputDataTests {
         
         XCTAssertTrue(inputArray.count > 0)
         
-        let inputData = data.convertArrayToInputData(inputArray: inputArray)
+        let inputData = data.inputData(from: inputArray)
         
         verifyInputData(data: inputData)
     }
@@ -62,6 +62,32 @@ extension InputDataTests {
         XCTAssertTrue(sale3DSPaymentRequest.requires3DS)
         XCTAssertNotNil(sale3DSPaymentRequest.threeDSV2Params)
         XCTAssertTrue(sale3DSData.objects.contains(where: { $0 === sale3DSData.challengeIndicator }))
+    }
+
+    func testManagedRecurring() {
+
+        var data = InputData(transactionName: .sale)
+        XCTAssertFalse(data.supportsManagedRecurring)
+        var request = data.createPaymentRequest()
+        request.transactionTypes.forEach { XCTAssertNil($0.managedRecurring) }
+
+        data = InputData(transactionName: .initRecurringSale)
+        XCTAssertTrue(data.supportsManagedRecurring)
+        request = data.createPaymentRequest()
+        request.transactionTypes.forEach { XCTAssertNil($0.managedRecurring) }
+
+        data.managedRecurringMode.value = InputData.ManagedRecurringMode.automatic.rawValue
+
+        request = data.createPaymentRequest()
+        request.transactionTypes.forEach { XCTAssertNotNil($0.managedRecurring) }
+
+        data.managedRecurringMode.value = InputData.ManagedRecurringMode.notAvailable.rawValue
+        request = data.createPaymentRequest()
+        request.transactionTypes.forEach { XCTAssertNil($0.managedRecurring) }
+
+        data.managedRecurringMode.value = InputData.ManagedRecurringMode.manual.rawValue
+        request = data.createPaymentRequest()
+        request.transactionTypes.forEach { XCTAssertNotNil($0.managedRecurring) }
     }
 }
 

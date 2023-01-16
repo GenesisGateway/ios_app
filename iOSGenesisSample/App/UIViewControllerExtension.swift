@@ -13,8 +13,8 @@ extension UIViewController {
             alert.dismiss(animated: true)
         }
         alert.addAction(okAction)
-        DispatchQueue.main.async {
-            self.present(alert, animated: true)
+        DispatchQueue.main.async { [weak self] in
+            self?.present(alert, animated: true)
         }
     }
     

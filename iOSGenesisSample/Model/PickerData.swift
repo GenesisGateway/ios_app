@@ -46,7 +46,7 @@ struct EnumPickerItem: PickerDataItem {
     }
 }
 
-public class PickerData: ObjectDataProtocol {
+public final class PickerData: ObjectDataProtocol {
     public var title: String
     public var value: String
     public var items: [PickerDataItem]

@@ -8,28 +8,37 @@ import GenesisSwift
 
 final class HomeViewController: UIViewController {
 
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet private weak var tableView: UITableView!
 
-    private lazy var transactionTypes: [TransactionName] = [.authorize, .sale, .sale3d, .paysafecard].sorted(by: { $0.rawValue < $1.rawValue })
+    private lazy var transactionTypes: [TransactionName] =
+        [.authorize, .sale, .sale3d, .paysafecard, .initRecurringSale, .initRecurringSale3d].sorted(by: { $0.rawValue < $1.rawValue })
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
+   override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         navigationController?.isNavigationBarHidden = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
         navigationController?.isNavigationBarHidden = false
     }
-    
-    private func descriptionForTransactionName(transactionName: TransactionName) -> String {
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard segue.identifier == "TransactionDetailsSegue" else { return }
+        guard let transactionDetails = segue.destination as? TransactionDetailsViewController else { return }
+        guard let row = tableView.indexPathForSelectedRow?.row else { return }
+        let transaction = transactionTypes[row]
+        transactionDetails.transactionName = transaction
+        transactionDetails.title = description(for: transaction)
+    }
+}
+
+private extension HomeViewController {
+
+    func description(for transactionName: TransactionName) -> String {
         switch transactionName {
+        case .initRecurringSale: return "Init Recurring Sale"
+        case .initRecurringSale3d: return "Init Recurring Sale3D"
         case .sale: return "Sale"
         case .sale3d: return "Sale3D"
         case .authorize: return "Authorize"
@@ -46,25 +55,17 @@ final class HomeViewController: UIViewController {
         openURLString(urlString: "https://www.genesissupport247.com/terms-conditions/")
     }
     
-    private func openURLString(urlString: String) {
+    func openURLString(urlString: String) {
         if let url = URL(string: urlString), UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.openURL(url)
         } else {
             assertionFailure("Cannot open URL: \(urlString)")
         }
     }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard segue.identifier == "TransactionDetailsSegue" else { return }
-        guard let transactionDetails = segue.destination as? TransactionDetailsViewController else { return }
-        guard let row = tableView.indexPathForSelectedRow?.row else { return }
-        let transaction = transactionTypes[row]
-        transactionDetails.transactionName = transaction
-        transactionDetails.title = descriptionForTransactionName(transactionName: transaction)
-    }
 }
 
 // MARK: - UITableViewDataSource
+
 extension HomeViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -74,12 +75,13 @@ extension HomeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TransactionTypeCell", for: indexPath)
         let transaction = transactionTypes[indexPath.row]
-        cell.textLabel?.text = descriptionForTransactionName(transactionName: transaction)
+        cell.textLabel?.text = description(for: transaction)
         return cell
     }
 }
 
 // MARK: - UITableViewDelegate
+
 extension HomeViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
