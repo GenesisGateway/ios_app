@@ -197,6 +197,14 @@ public final class InputData: NSObject {
     private(set) lazy var registrationDate = ValidatedInputData(title: Titles.registrationDate.rawValue,
                                                                 value: Date().dateBySubstracting(2, from: .year)!.iso8601Date,
                                                                 regex: Regex.date)
+    private(set) lazy var recurringType = PickerData(title: Titles.recurringType.rawValue,
+                                                     value: RecurringType.TypeValues.initial.rawValue,
+                                                     items: RecurringType.TypeValues.allCases
+                                                     .map { EnumPickerItem($0.rawValue) })
+    private(set) lazy var recurringCategory = PickerData(title: Titles.recurringCategory.rawValue,
+                                                         value: RecurringCategory.CategoryValues.subscription.rawValue,
+                                                         items: RecurringCategory.CategoryValues.allCases
+                                                         .map { EnumPickerItem($0.rawValue) })
 
     private var defaultObjects: [ObjectDataProtocol] {
         var all: [ObjectDataProtocol] = [transactionId, amount, currency, usage, customerEmail, customerPhone,
@@ -212,6 +220,11 @@ public final class InputData: NSObject {
                 break
             }
         }
+
+        if supportsRecurringType { all.append(recurringType) }
+
+        if supportsRecurringCategory { all.append(recurringCategory) }
+
         return all
     }
 
@@ -256,6 +269,24 @@ public final class InputData: NSObject {
         }
     }
 
+    var supportsRecurringType: Bool {
+        switch transactionName {
+        case .sale, .sale3d, .authorize, .authorize3d:
+            return true
+        default:
+            return false
+        }
+    }
+
+    var supportsRecurringCategory: Bool {
+        switch transactionName {
+        case .initRecurringSale, .initRecurringSale3d:
+            return true
+        default:
+            return false
+        }
+    }
+
     var objects: [ObjectDataProtocol] {
         requires3DS ? allObjects : defaultObjects
     }
@@ -294,6 +325,8 @@ extension InputData {
         // Managed Recurring
         case recurringMode = "Managed Recurring Mode"
         case recurringMaxCount = "Recurring Max Count"
+        case recurringType = "Recurring Type"
+        case recurringCategory = "Recurring Category"
 
         case autoRecurringPeriod = "Recurring Period"
         case autoRecurringInterval = "Recurring Interval"
@@ -460,6 +493,14 @@ extension InputData {
         return threeDSV2Params
     }
 
+    var recurringTypeValue: RecurringType {
+        RecurringType(type: RecurringType.TypeValues(rawValue: recurringType.value) ?? .initial)
+    }
+
+    var recurringCategoryValue: RecurringCategory {
+        RecurringCategory(category: RecurringCategory.CategoryValues(rawValue: recurringCategory.value) ?? .subscription)
+    }
+
     func createPaymentRequest() -> PaymentRequest {
 
         let paymentTransactionType = PaymentTransactionType(name: transactionName)
@@ -477,6 +518,14 @@ extension InputData {
 
         if paymentRequest.requires3DS {
             paymentRequest.threeDSV2Params = threeDSParams
+        }
+
+        if paymentRequest.requiresRecurringType {
+            paymentRequest.recurringType = recurringTypeValue
+        }
+
+        if paymentRequest.requiresRecurringCategory {
+            paymentRequest.recurringCategory = recurringCategoryValue
         }
 
         return paymentRequest
@@ -560,6 +609,8 @@ extension InputData {
             case .suspiciousActivityIndicator: suspiciousActivityIndicator = inputData as! PickerData
             case .registrationIndicator: registrationIndicator = inputData as! PickerData
             case .registrationDate: registrationDate = inputData as! ValidatedInputData
+            case .recurringType: recurringType = inputData as! PickerData
+            case .recurringCategory: recurringCategory = inputData as! PickerData
             }
         }
     }
@@ -674,6 +725,14 @@ extension InputData {
                         array.append(PickerData(title: title, value: value,
                                                 items: ThreeDSV2Params.CardHolderAccountParams.RegistrationIndicatorValues.allCases
                                                             .map { EnumPickerItem($0.rawValue) }))
+                    case .recurringType:
+                        array.append(PickerData(title: title, value: value,
+                                                items: RecurringType.TypeValues.allCases
+                                                            .map { EnumPickerItem($0.rawValue) }))
+                    case .recurringCategory:
+                        array.append(PickerData(title: title, value: value,
+                                                items: RecurringCategory.CategoryValues.allCases
+                                                            .map { EnumPickerItem($0.rawValue) }))
                     default:
                         break
                     }
@@ -681,5 +740,31 @@ extension InputData {
             }
         }
         return array
+    }
+}
+
+// TODO: - The properties should be moved to the SDK on the next update
+
+private extension PaymentRequest {
+    var requiresRecurringType: Bool {
+        // the request requires RecurringType if any of its specified types require it
+        let requiredTypes: Set<TransactionName> = [.sale, .sale3d, .authorize, .authorize3d]
+        for type in transactionTypes {
+            if requiredTypes.contains(type.name) {
+                return true
+            }
+        }
+        return false
+    }
+
+    var requiresRecurringCategory: Bool {
+        // the request requires RecurringCategory if any of its specified types require it
+        let requiredTypes: Set<TransactionName> = [.initRecurringSale, .initRecurringSale3d]
+        for type in transactionTypes {
+            if requiredTypes.contains(type.name) {
+                return true
+            }
+        }
+        return false
     }
 }

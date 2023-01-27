@@ -11,7 +11,7 @@ final class HomeViewController: UIViewController {
     @IBOutlet private weak var tableView: UITableView!
 
     private lazy var transactionTypes: [TransactionName] =
-        [.authorize, .sale, .sale3d, .paysafecard, .initRecurringSale, .initRecurringSale3d].sorted(by: { $0.rawValue < $1.rawValue })
+    [.authorize, .authorize3d, .sale, .sale3d, .paysafecard, .initRecurringSale, .initRecurringSale3d].sorted(by: { $0.rawValue < $1.rawValue })
 
    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -42,6 +42,7 @@ private extension HomeViewController {
         case .sale: return "Sale"
         case .sale3d: return "Sale3D"
         case .authorize: return "Authorize"
+        case .authorize3d: return "Authorize3D"
         case .paysafecard: return "Paysafecard"
         default: return transactionName.rawValue
         }

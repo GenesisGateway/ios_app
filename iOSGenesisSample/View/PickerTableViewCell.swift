@@ -20,6 +20,7 @@ final class PickerTableViewCell: UITableViewCell {
             picker?.dataSource = self
             picker?.delegate = self
             inputTextField.inputView = picker
+            inputTextField.tintColor = .clear
         }
     }
 
@@ -41,6 +42,10 @@ extension PickerTableViewCell: UITextFieldDelegate {
         
         guard let index = indices.first else { return }
         picker?.selectRow(index, inComponent: 0, animated: true)
+    }
+
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        false
     }
 }
 

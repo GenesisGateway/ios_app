@@ -89,6 +89,82 @@ extension InputDataTests {
         request = data.createPaymentRequest()
         request.transactionTypes.forEach { XCTAssertNotNil($0.managedRecurring) }
     }
+
+    func testRecurringTypes() {
+
+        var data = InputData(transactionName: .sale)
+        XCTAssertTrue(data.supportsRecurringType)
+        var request = data.createPaymentRequest()
+        XCTAssertNotNil(request.recurringType)
+
+        data = InputData(transactionName: .sale3d)
+        XCTAssertTrue(data.supportsRecurringType)
+        request = data.createPaymentRequest()
+        XCTAssertNotNil(request.recurringType)
+
+        data = InputData(transactionName: .authorize)
+        XCTAssertTrue(data.supportsRecurringType)
+        request = data.createPaymentRequest()
+        XCTAssertNotNil(request.recurringType)
+
+        data = InputData(transactionName: .authorize3d)
+        XCTAssertTrue(data.supportsRecurringType)
+        request = data.createPaymentRequest()
+        XCTAssertNotNil(request.recurringType)
+
+        data = InputData(transactionName: .initRecurringSale)
+        XCTAssertFalse(data.supportsRecurringType)
+        request = data.createPaymentRequest()
+        XCTAssertNil(request.recurringType)
+
+        data = InputData(transactionName: .initRecurringSale3d)
+        XCTAssertFalse(data.supportsRecurringType)
+        request = data.createPaymentRequest()
+        XCTAssertNil(request.recurringType)
+
+        data = InputData(transactionName: .paysafecard)
+        XCTAssertFalse(data.supportsRecurringType)
+        request = data.createPaymentRequest()
+        XCTAssertNil(request.recurringType)
+    }
+
+    func testRecurringCategory() {
+
+        var data = InputData(transactionName: .initRecurringSale)
+        XCTAssertTrue(data.supportsRecurringCategory)
+        var request = data.createPaymentRequest()
+        XCTAssertNotNil(request.recurringCategory)
+
+        data = InputData(transactionName: .initRecurringSale3d)
+        XCTAssertTrue(data.supportsRecurringCategory)
+        request = data.createPaymentRequest()
+        XCTAssertNotNil(request.recurringCategory)
+
+        data = InputData(transactionName: .sale)
+        XCTAssertFalse(data.supportsRecurringCategory)
+        request = data.createPaymentRequest()
+        XCTAssertNil(request.recurringCategory)
+
+        data = InputData(transactionName: .sale3d)
+        XCTAssertFalse(data.supportsRecurringCategory)
+        request = data.createPaymentRequest()
+        XCTAssertNil(request.recurringCategory)
+
+        data = InputData(transactionName: .authorize)
+        XCTAssertFalse(data.supportsRecurringCategory)
+        request = data.createPaymentRequest()
+        XCTAssertNil(request.recurringCategory)
+
+        data = InputData(transactionName: .authorize3d)
+        XCTAssertFalse(data.supportsRecurringCategory)
+        request = data.createPaymentRequest()
+        XCTAssertNil(request.recurringCategory)
+
+        data = InputData(transactionName: .paysafecard)
+        XCTAssertFalse(data.supportsRecurringCategory)
+        request = data.createPaymentRequest()
+        XCTAssertNil(request.recurringCategory)
+    }
 }
 
 private extension InputDataTests {
