@@ -25,3 +25,20 @@ extension Date {
         return calendar.date(byAdding: components, to: self)
     }
 }
+
+extension Optional {
+
+    func unwrap(error: @autoclosure () -> String? = nil,
+                 file: StaticString = #file,
+                 line: UInt = #line) -> Wrapped {
+        guard let unwrapped = self else {
+            var message = "Value was nil in \(file) at line \(line)"
+            if let errorMessage = error() {
+                message.append(". Error: \(errorMessage)")
+            }
+            NSException(name: .invalidArgumentException, reason: message, userInfo: nil).raise()
+            preconditionFailure(message)
+        }
+        return unwrapped
+    }
+}

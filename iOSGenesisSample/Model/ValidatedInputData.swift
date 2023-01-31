@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import GenesisSwift
 
 public final class ValidatedInputData: ObjectDataProtocol {
     public var title: String

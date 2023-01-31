@@ -27,7 +27,7 @@ extension InputDataTests {
         let data = InputData(transactionName: .sale)
         let inputDataDefault = data.objects
         
-        let inputArray = data.convertInputDataToArray(inputArray: inputDataDefault)
+        let inputArray = Storage.convertInputDataToArray(inputArray: inputDataDefault)
         
         XCTAssertTrue(inputArray.count > 0)
         

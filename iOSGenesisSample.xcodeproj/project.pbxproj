@@ -23,9 +23,12 @@
 		2E2527FF204EC5C400805761 /* TransactionDetailsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2527FE204EC5C400805761 /* TransactionDetailsViewControllerTests.swift */; };
 		2E36469E204456F700F7FE9D /* GenesisSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E364699204456E900F7FE9D /* GenesisSwift.framework */; };
 		2E3646A420454D6900F7FE9D /* GenesisSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2E364699204456E900F7FE9D /* GenesisSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		2E707B7D20468E4500DE8147 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E707B7C20468E4500DE8147 /* HomeViewController.swift */; };
 		2E707B832046A50200DE8147 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E707B822046A50200DE8147 /* UIViewControllerExtension.swift */; };
 		56B29961290286C8000DBC71 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B29960290286C8000DBC71 /* Extensions.swift */; };
+		56BB5FFA298413F2007D3022 /* ConfigurationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56BB5FF9298413F2007D3022 /* ConfigurationData.swift */; };
+		56BB5FFD298414B8007D3022 /* ObjectData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56BB5FFC298414B8007D3022 /* ObjectData.swift */; };
+		56BB5FFF2987CEC6007D3022 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56BB5FFE2987CEC6007D3022 /* Storage.swift */; };
+		56DB17472984058A00BBEF6A /* HomeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DB17462984058A00BBEF6A /* HomeTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,9 +104,12 @@
 		2E2527FC204EB8AD00805761 /* HomeViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HomeViewControllerTests.swift; path = iOSGenesisSampleTests/HomeViewControllerTests.swift; sourceTree = SOURCE_ROOT; };
 		2E2527FE204EC5C400805761 /* TransactionDetailsViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetailsViewControllerTests.swift; sourceTree = "<group>"; };
 		2E364693204456E900F7FE9D /* GenesisSwift.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GenesisSwift.xcodeproj; path = ios_sdk/GenesisSwift.xcodeproj; sourceTree = "<group>"; };
-		2E707B7C20468E4500DE8147 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		2E707B822046A50200DE8147 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		56B29960290286C8000DBC71 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		56BB5FF9298413F2007D3022 /* ConfigurationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationData.swift; sourceTree = "<group>"; };
+		56BB5FFC298414B8007D3022 /* ObjectData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectData.swift; sourceTree = "<group>"; };
+		56BB5FFE2987CEC6007D3022 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
+		56DB17462984058A00BBEF6A /* HomeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,8 +134,11 @@
 		2D13FA9F1FB3A1F300E0E529 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				56BB5FF9298413F2007D3022 /* ConfigurationData.swift */,
 				2D13FAA01FB3A1F300E0E529 /* InputData.swift */,
+				56BB5FFC298414B8007D3022 /* ObjectData.swift */,
 				2D13FAA11FB3A1F300E0E529 /* PickerData.swift */,
+				56BB5FFE2987CEC6007D3022 /* Storage.swift */,
 				2D13FAA21FB3A1F300E0E529 /* ValidatedInputData.swift */,
 			);
 			path = Model;
@@ -199,7 +208,7 @@
 		2E707B7820468AE000DE8147 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				2E707B7C20468E4500DE8147 /* HomeViewController.swift */,
+				56DB17462984058A00BBEF6A /* HomeTableViewController.swift */,
 				2D570D471F3CB452001DE81E /* TransactionDetailsViewController.swift */,
 			);
 			path = Controller;
@@ -378,13 +387,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				2D570D481F3CB452001DE81E /* TransactionDetailsViewController.swift in Sources */,
+				56DB17472984058A00BBEF6A /* HomeTableViewController.swift in Sources */,
 				2DC0B4F61F94C3EF00C536EF /* PickerTableViewCell.swift in Sources */,
 				2E707B832046A50200DE8147 /* UIViewControllerExtension.swift in Sources */,
 				2D570D461F3CB452001DE81E /* AppDelegate.swift in Sources */,
+				56BB5FFF2987CEC6007D3022 /* Storage.swift in Sources */,
 				2D13FAA51FB3A1F300E0E529 /* ValidatedInputData.swift in Sources */,
 				56B29961290286C8000DBC71 /* Extensions.swift in Sources */,
 				2D32D9FD1F8ACC5800A43FE0 /* InputTableViewCell.swift in Sources */,
-				2E707B7D20468E4500DE8147 /* HomeViewController.swift in Sources */,
+				56BB5FFA298413F2007D3022 /* ConfigurationData.swift in Sources */,
+				56BB5FFD298414B8007D3022 /* ObjectData.swift in Sources */,
 				2D13FAA41FB3A1F300E0E529 /* PickerData.swift in Sources */,
 				2D13FAA31FB3A1F300E0E529 /* InputData.swift in Sources */,
 			);
@@ -595,6 +607,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = J298XB5U82;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -604,7 +617,7 @@
 				);
 				INFOPLIST_FILE = iOSGenesisSample/App/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.3;
+				MARKETING_VERSION = 1.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.emerchantpay.inapppayments;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -622,6 +635,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = J298XB5U82;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -631,7 +645,7 @@
 				);
 				INFOPLIST_FILE = iOSGenesisSample/App/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.3;
+				MARKETING_VERSION = 1.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.emerchantpay.inapppayments;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

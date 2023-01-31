@@ -23,6 +23,7 @@ final class TransactionDetailsViewController: UIViewController {
             }
         }
     }
+    weak var configurationData: ConfigurationData!
     
     @IBOutlet private weak var bottomLayoutConstraint: NSLayoutConstraint!
     @IBOutlet private weak var tableView: UITableView!
@@ -79,14 +80,9 @@ private extension TransactionDetailsViewController {
     
     func showPayForm() {
 
+        let configuration = configurationData.createConfiguration()
         let paymentRequest = inputData.createPaymentRequest()
 
-        //Credentials for Genesis
-        let credentials = Credentials(withUsername: "YOUR_USERNAME", andPassword: "YOUR_PASSWORD")
-
-        //Configuration for Genesis
-        let configuration = Configuration(credentials: credentials, language: .en, environment: .staging, endpoint: .emerchantpay)
-        
         //Init Genesis with Configuration and PaymentRequest
         let genesis = Genesis(withConfiguration: configuration, paymentRequest: paymentRequest, forDelegate: self)
         

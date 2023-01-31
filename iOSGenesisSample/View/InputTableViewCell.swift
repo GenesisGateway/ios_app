@@ -19,7 +19,7 @@ final class InputTableViewCell: UITableViewCell {
     }
 
     var indexPath: IndexPath!
-    var delegate: CellDidChangeDelegate?
+    weak var delegate: CellDidChangeDelegate?
 }
 
 // MARK: - UITextFieldDelegate

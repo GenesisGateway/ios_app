@@ -14,7 +14,7 @@ final class PickerTableViewCell: UITableViewCell {
     var data: PickerData! {
         didSet {
             inputTitleLabel.text = data.title
-            inputTextField.text = data.value
+            inputTextField.text = data.items.first { $0.pickerValue == data.value }?.pickerTitle ?? data.value
             
             picker = UIPickerView(frame: .zero)
             picker?.dataSource = self
@@ -25,8 +25,8 @@ final class PickerTableViewCell: UITableViewCell {
     }
 
     var indexPath: IndexPath!
-    var picker: UIPickerView?
-    var delegate: CellDidChangeDelegate?
+    private var picker: UIPickerView?
+    weak var delegate: CellDidChangeDelegate?
 }
 
 // MARK: - UITextFieldDelegate
@@ -68,7 +68,7 @@ extension PickerTableViewCell: UIPickerViewDelegate {
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         let item = data.items[row]
-        inputTextField.text = item.pickerValue
+        inputTextField.text = item.pickerTitle
 
         delegate?.cellTextFieldDidChange(value: item.pickerValue, indexPath: indexPath)
     }

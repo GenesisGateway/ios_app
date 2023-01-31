@@ -8,13 +8,13 @@ import XCTest
 @testable import GenesisSwift
 
 class HomeViewControllerTests: XCTestCase {
-    var controller: HomeViewController!
+    var controller: HomeTableViewController!
     
     override func setUp() {
         super.setUp()
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc: HomeViewController = (storyboard.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController)!
+        let vc: HomeTableViewController = (storyboard.instantiateViewController(withIdentifier: "HomeTableViewController") as? HomeTableViewController)!
         controller = vc
         _ = controller.view
     }

@@ -6,18 +6,6 @@
 import Foundation
 import GenesisSwift
 
-protocol ObjectDataProtocol: AnyObject, GenesisSwift.DataProtocol {}
-
-public class InputDataObject: ObjectDataProtocol {
-    public var title: String
-    public var value: String
-    
-    public init(title: String, value: String) {
-        self.title = title
-        self.value = value
-    }
-}
-
 public final class InputData: NSObject {
 
     private let transactionName: TransactionName
@@ -298,8 +286,8 @@ public final class InputData: NSObject {
     }
     
     func save() {
-        let data = convertInputDataToArray(inputArray: allObjects)
-        UserDefaults.standard.set(data, forKey: StorageKeys.commonData)
+        let data = Storage.convertInputDataToArray(inputArray: allObjects)
+        UserDefaults.standard.set(data, forKey: Storage.Keys.commonData)
     }
 }
 
@@ -383,9 +371,6 @@ private extension InputData {
         case dataObject = "InputDataObject"
         case pickerData = "PickerData"
         case validatedData = "ValidatedInputData"
-    }
-    enum StorageKeys {
-        static let commonData = "UserDefaultsDataKey"
     }
 
     enum Regex {
@@ -535,7 +520,7 @@ extension InputData {
 extension InputData {
 
     func loadInputData() {
-        guard let storedData = UserDefaults.standard.array(forKey: StorageKeys.commonData) as? [[String: String]] else {
+        guard let storedData = UserDefaults.standard.array(forKey: Storage.Keys.commonData) as? [[String: String]] else {
             save()
             return
         }
@@ -613,19 +598,6 @@ extension InputData {
             case .recurringCategory: recurringCategory = inputData as! PickerData
             }
         }
-    }
-
-    func convertInputDataToArray(inputArray: [GenesisSwift.DataProtocol]) -> [[String: String]] {
-        var array = [[String: String]]()
-        for data in inputArray {
-            var dictionary = [String: String]()
-            dictionary["title"] = data.title
-            dictionary["value"] = data.value
-            dictionary["regex"] = data.regex
-            dictionary["type"] = String(describing: type(of: data))
-            array.append(dictionary)
-        }
-        return array
     }
     
     func inputData(from inputArray: [[String: String]]) -> [GenesisSwift.DataProtocol] {
@@ -746,6 +718,7 @@ extension InputData {
 // TODO: - The properties should be moved to the SDK on the next update
 
 private extension PaymentRequest {
+
     var requiresRecurringType: Bool {
         // the request requires RecurringType if any of its specified types require it
         let requiredTypes: Set<TransactionName> = [.sale, .sale3d, .authorize, .authorize3d]

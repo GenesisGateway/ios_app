@@ -13,27 +13,27 @@ public protocol PickerDataItem {
 
 extension IsoCountryInfo: PickerDataItem {
     public var pickerTitle: String {
-        return "\(name) - \(alpha2)"
+        "\(name) - \(alpha2)"
     }
     
     public var pickerValue: String {
-        return name
+        name
     }
 }
 
 extension CurrencyInfo: PickerDataItem {
     public var pickerTitle: String {
-        return name.rawValue
+        name.rawValue
     }
     
     public var pickerValue: String {
-        return name.rawValue
+        name.rawValue
     }
 }
 
 struct EnumPickerItem: PickerDataItem {
-    var pickerTitle: String
-    var pickerValue: String
+    let pickerTitle: String
+    let pickerValue: String
 
     init(_ item: String) {
         pickerTitle = item
