@@ -1,6 +1,6 @@
-# Genesis iOS Sample App
->
-[![Build Status](https://img.shields.io/travis/GenesisGateway/ios_app.svg?style=flat)](https://travis-ci.org/GenesisGateway/ios_app)
+# ⛔️ DEPRECATED - Genesis iOS Sample App
+
+This is no longer supported, please consider using [GenesisSwift Example](https://github.com/GenesisGateway/ios_sdk/tree/master/GenesisSwift%20Example) instead.
 
 ## Requirements
 
